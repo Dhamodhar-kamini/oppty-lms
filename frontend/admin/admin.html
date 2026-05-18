@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppty TechHub LMS - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/opptylogo.png" alt="Oppty Logo" class="sidebar-logo">
+            <span class="admin-tag">ADMIN</span>
+            <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fa-solid fa-gauge-high"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <div class="nav-wrapper">
+                <div class="nav-item" id="course-toggle">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Courses</span>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <ul class="sub-menu" id="sub-menu">
+                    <li><a href="#" data-section="all-courses" class="active">All Courses</a></li>
+                    <li><a href="#" data-section="add-course">Add New Course</a></li>
+                    <li><a href="#" data-section="categories">Categories</a></li>
+                </ul>
+            </div>
+
+            <a href="#" class="nav-item" data-section="users">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="#" class="nav-item" data-section="instructors">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <span>Instructors</span>
+            </a>
+            <a href="#" class="nav-item" data-section="revenue">
+                <i class="fa-solid fa-sack-dollar"></i>
+                <span>Revenue</span>
+            </a>
+            <a href="#" class="nav-item" data-section="analytics">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="nav-item" data-section="settings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+            <a href="../login/login.html" class="nav-item logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </div>
+            
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search users, courses, transactions...">
+            </div>
+
+            <div class="user-profile">
+                <button class="btn-icon notification-btn">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                
+                <div class="profile-info">
+                    <div class="profile-text">
+                        <span class="user-name">ADMIN</span>
+                        <span class="user-role">Super Admin</span>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?img=68" alt="Admin Profile" class="avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD SECTION -->
+        <section class="content-section active" id="dashboard-section">
+            <div class="page-header fade-in-up">
+                <div>
+                    <h1>Welcome back, Admin 👋</h1>
+                    <p>Here's what's happening with your platform today.</p>
+                </div>
+                <button class="btn-primary">
+                    <i class="fa-solid fa-plus"></i> Add New Course
+                </button>
+            </div>
+
+            <!-- STATS CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="stat-icon icon-blue">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Users</span>
+                        <h3>12,847</h3>
+                        <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 12.5% this month</span>
+                    </div>
+                </div>
+
+                <div class="stat-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="stat-icon icon-green">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Courses</span>
+                        <h3>248</h3>
+                        <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 8 new this week</span>
+                    </div>
+                </div>
+
+                <div class="stat-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="stat-icon icon-orange">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Revenue</span>
+                        <h3>$84,392</h3>
+                        <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 23.1% vs last month</span>
+                    </div>
+                </div>
+
+                <div class="stat-card fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="stat-icon icon-red">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Active Instructors</span>
+                        <h3>42</h3>
+                        <span class="stat-change negative"><i class="fa-solid fa-arrow-down"></i> 2.3% this month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHART & RECENT ACTIVITY -->
+            <div class="dashboard-grid">
+                <div class="chart-card fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="card-header">
+                        <div>
+                            <h3>Revenue Overview</h3>
+                            <p>Monthly earnings breakdown</p>
+                        </div>
+                        <select class="select-input">
+                            <option>Last 7 Months</option>
+                            <option>Last Year</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-bars">
+                            <div class="bar-group">
+                                <div class="bar" style="height: 45%;"><span>$4.2k</span></div>
+                                <span class="bar-label">Mar</span>
+                            </div>
+                            <div class="bar-group">
+                                <div class="bar" style="height: 65%;"><span>$6.1k</span></div>
+                                <span class="bar-label">Apr</span>
+                            </div>
+                            <div class="bar-group">
+                                <div class="bar" style="height: 55%;"><span>$5.2k</span></div>
+                                <span class="bar-label">May</span>
+                            </div>
+                            <div class="bar-group">
+                                <div class="bar" style="height: 80%;"><span>$7.6k</span></div>
+                                <span class="bar-label">Jun</span>
+                            </div>
+                            <div class="bar-group">
+                                <div class="bar" style="height: 70%;"><span>$6.7k</span></div>
+                                <span class="bar-label">Jul</span>
+                            </div>
+                            <div class="bar-group">
+                                <div class="bar active" style="height: 95%;"><span>$8.4k</span></div>
+                                <span class="bar-label">Aug</span>
+                            </div>
+                            <div class="bar-group">
+                                <div class="bar" style="height: 60%;"><span>$5.8k</span></div>
+                                <span class="bar-label">Sep</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-card fade-in-up" style="animation-delay: 0.6s;">
+                    <div class="card-header">
+                        <div>
+                            <h3>Recent Activity</h3>
+                            <p>Latest platform updates</p>
+                        </div>
+                    </div>
+                    <ul class="activity-list">
+                        <li>
+                            <div class="activity-icon green"><i class="fa-solid fa-user-plus"></i></div>
+                            <div>
+                                <p><strong>New user registered</strong></p>
+                                <span>John Doe joined the platform</span>
+                            </div>
+                            <span class="activity-time">2m</span>
+                        </li>
+                        <li>
+                            <div class="activity-icon blue"><i class="fa-solid fa-book"></i></div>
+                            <div>
+                                <p><strong>Course published</strong></p>
+                                <span>Advanced React Patterns</span>
+                            </div>
+                            <span class="activity-time">15m</span>
+                        </li>
+                        <li>
+                            <div class="activity-icon orange"><i class="fa-solid fa-dollar-sign"></i></div>
+                            <div>
+                                <p><strong>Payment received</strong></p>
+                                <span>$249 from Sarah Wilson</span>
+                            </div>
+                            <span class="activity-time">1h</span>
+                        </li>
+                        <li>
+                            <div class="activity-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div>
+                                <p><strong>Course reported</strong></p>
+                                <span>Pending admin review</span>
+                            </div>
+                            <span class="activity-time">3h</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RECENT COURSES TABLE -->
+            <div class="table-card fade-in-up" style="animation-delay: 0.7s;">
+                <div class="card-header">
+                    <div>
+                        <h3>Recent Courses</h3>
+                        <p>Manage your latest courses</p>
+                    </div>
+                    <a href="#" class="see-all">View all <i class="fa-solid fa-arrow-right-long"></i></a>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Instructor</th>
+                                <th>Students</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="course-cell">
+                                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=80&q=80" alt="">
+                                        <div>
+                                            <strong>Cinematic Web Animations</strong>
+                                            <span>UI/UX • Advanced</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Oppty TechHub</td>
+                                <td>1,247</td>
+                                <td>$69.00</td>
+                                <td><span class="status published">Published</span></td>
+                                <td>
+                                    <button class="btn-icon-sm"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="btn-icon-sm"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon-sm danger"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="course-cell">
+                                        <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=80&q=80" alt="">
+                                        <div>
+                                            <strong>Advanced Django Architecture</strong>
+                                            <span>Backend • Intermediate</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Alex Morgan</td>
+                                <td>892</td>
+                                <td>$49.00</td>
+                                <td><span class="status published">Published</span></td>
+                                <td>
+                                    <button class="btn-icon-sm"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="btn-icon-sm"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon-sm danger"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="course-cell">
+                                        <img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=80&q=80" alt="">
+                                        <div>
+                                            <strong>Type-Safe DBs with Prisma</strong>
+                                            <span>Database • Beginner</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Sarah Wilson</td>
+                                <td>2,103</td>
+                                <td>FREE</td>
+                                <td><span class="status draft">Draft</span></td>
+                                <td>
+                                    <button class="btn-icon-sm"><i class="fa-solid fa-eye"></i></button>
+                                    <button class="btn-icon-sm"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon-sm danger"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- USERS SECTION -->
+        <section class="content-section" id="users-section">
+            <div class="page-header fade-in-up">
+                <div>
+                    <h1>User Management</h1>
+                    <p>Manage all registered users on the platform.</p>
+                </div>
+                <button class="btn-primary"><i class="fa-solid fa-user-plus"></i> Add User</button>
+            </div>
+
+            <div class="table-card fade-in-up">
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- COURSES SECTION -->
+        <section class="content-section" id="all-courses-section">
+            <div class="page-header fade-in-up">
+                <div>
+                    <h1>All Courses</h1>
+                    <p>Manage all courses on the platform.</p>
+                </div>
+                <button class="btn-primary"><i class="fa-solid fa-plus"></i> Add Course</button>
+            </div>
+
+            <div class="courses-admin-grid" id="admin-courses-grid">
+                <!-- Populated via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <script src="./admin.js"></script>
+</body>
+</html>
