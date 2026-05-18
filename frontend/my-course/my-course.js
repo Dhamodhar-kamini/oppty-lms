@@ -1,26 +1,22 @@
-// Data with IDs that match the course-content database perfectly
+// Base Database for enrolled courses
 const enrolledCoursesData = [
     {
-        id: "course-content-panda", // Passes ID to URL
+        id: "course-content-panda",
         category: "UI/UX",
         title: "Cinematic Web Animations & Interactions",
         image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         authorImg: "https://i.pravatar.cc/150?img=15", 
         authorName: "Oppty TechHub",
-        lessonsCount: 10,
-        completedLessons: 6,
-        progress: 60
+        lessonsCount: 5 // Must match the total lessons in course-content.js mock data
     },
     {
-        id: "course-content-django", // Passes ID to URL
+        id: "course-content-django",
         category: "BACKEND",
         title: "Advanced Django Architecture & API Integration",
         image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         authorImg: "https://i.pravatar.cc/150?img=33", 
         authorName: "Alex",
-        lessonsCount: 25,
-        completedLessons: 5,
-        progress: 20
+        lessonsCount: 2
     }
 ];
 
@@ -46,14 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Render Enrolled Courses
+    // Render Enrolled Courses with DYNAMIC Progress from LocalStorage
     const grid = document.getElementById('enrolled-courses-grid');
+    
+    // Fetch global progress database from browser storage
+    const progressDB = JSON.parse(localStorage.getItem('opptyProgress')) || {};
+
     if (grid) {
         grid.innerHTML = '';
         enrolledCoursesData.forEach((course, index) => {
+            
+            // Calculate Progress dynamically
+            const completedArray = progressDB[course.id] || [];
+            const completedCount = completedArray.length;
+            let progressPercent = Math.round((completedCount / course.lessonsCount) * 100);
+            progressPercent = Math.min(progressPercent, 100); // cap at 100%
+
             const delay = 0.1 + (index * 0.1);
             
-            // This is the crucial link: window.location.href='course-content.html?id=...'
             const cardHTML = `
                 <article class="course-card fade-in-up" style="animation-delay: ${delay}s" onclick="window.location.href='../course-content/course-content.html?id=${course.id}'">
                     <div class="card-image-wrapper">
@@ -66,13 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="author"><img src="${course.authorImg}" alt="Author"> ${course.authorName}</span>
                             <span><i class="fa-solid fa-play-circle" style="color: var(--primary-blue);"></i> ${course.lessonsCount} Lessons</span>
                         </div>
+                        
                         <div class="progress-container">
                             <div class="progress-text">
-                                <span>Completed: ${course.completedLessons}/${course.lessonsCount}</span>
-                                <span class="percent">${course.progress}%</span>
+                                <span>Completed: ${completedCount}/${course.lessonsCount}</span>
+                                <span class="percent">${progressPercent}%</span>
                             </div>
                             <div class="progress-bar-bg">
-                                <div class="progress-fill" style="width: ${course.progress}%;"></div>
+                                <div class="progress-fill" style="width: ${progressPercent}%;"></div>
                             </div>
                         </div>
                     </div>
