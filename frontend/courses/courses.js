@@ -22,7 +22,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Course Submenu Toggle Functionality (Fixed)
+// Course Submenu Toggle Functionality
 const courseToggle = document.getElementById('course-toggle');
 const subMenu = document.getElementById('sub-menu');
 const chevron = courseToggle.querySelector('.chevron');
@@ -60,3 +60,40 @@ document.querySelectorAll('.fade-in-up').forEach(el => {
     el.style.animationPlayState = 'paused';
     observer.observe(el);
 });
+
+/* ===== Advanced Tech Icon Cross-Fade Loop ===== */
+const iconClasses = [
+    'fa-brands fa-react',
+    'fa-brands fa-node-js',
+    'fa-brands fa-vuejs',
+    'fa-brands fa-python',
+    'fa-brands fa-docker'
+];
+
+let currentIconIndex = 0;
+const currentIconNode = document.querySelector('.tech-icon-current');
+const nextIconNode = document.querySelector('.tech-icon-next');
+const intervalTime = 3000; // Time in ms for a full cycle
+const transitionTime = 1000; // Match the transition duration from CSS
+
+function changeHeroIcon() {
+    currentIconIndex = (currentIconIndex + 1) % iconClasses.length;
+    
+    // Set the hidden element to the new icon and add class structure
+    nextIconNode.className = `${iconClasses[currentIconIndex]} tech-icon tech-icon-next`;
+
+    // Trigger cross-fade
+    nextIconNode.classList.remove('tech-icon-next');
+    nextIconNode.classList.add('tech-icon-current');
+    
+    currentIconNode.classList.remove('tech-icon-current');
+    currentIconNode.classList.add('tech-icon-next');
+
+    // Wait for transition, then finalize roles
+    setTimeout(() => {
+        currentIconNode.className = `${iconClasses[currentIconIndex]} tech-icon tech-icon-current`;
+        nextIconNode.className = `${iconClasses[(currentIconIndex + 1) % iconClasses.length]} tech-icon tech-icon-next`;
+    }, transitionTime);
+}
+
+setInterval(changeHeroIcon, intervalTime);

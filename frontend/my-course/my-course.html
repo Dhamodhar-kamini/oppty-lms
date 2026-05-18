@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses - Oppty TechHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my-course.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top-section">
+                <div class="sidebar-header">
+                    <img src="../assets/opptylogo.png" alt="Oppty Logo" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/140x45/0f172a/ffffff?text=Oppty+TechHub'">
+                    <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span>Overview</span>
+                    </a>
+                    
+                    <div class="nav-wrapper">
+                        <div class="nav-item" id="course-toggle">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>Course</span>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </div>
+                        <ul class="sub-menu" id="sub-menu">
+                            <li><a href="../courses/courses.html">Top course</a></li>
+                            <li><a href="#">Backend Architecture</a></li>
+                            <li><a href="#">Cinematic UI/UX</a></li>
+                        </ul>
+                    </div>
+
+                    <a href="../my-course/my-course.html" class="nav-item active">
+                        <i class="fa-solid fa-desktop"></i>
+                        <span>My course</span>
+                    </a>
+                    
+                    <a href="#" class="nav-item">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Learning progress</span>
+                    </a>
+                    
+                    <a href="#" class="nav-item">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span>Community</span>
+                    </a>
+                </nav>
+            </div>
+
+            
+        </aside>
+
+        <main class="content-area">
+            <header class="topbar">
+                <div class="header-left">
+                    <div class="mobile-toggle" id="mobile-toggle">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                    </div>
+                    <div>
+                        <h1 class="page-title">My Courses</h1>
+                        <p class="page-subtitle">Continue your learning journey, DHAMODHAR!</p>
+                    </div>
+                </div>
+
+                <div class="header-right user-profile">
+                    <span class="user-name">DHAMODHAR</span>
+                    <img src="https://i.pravatar.cc/150?img=11" alt="User Profile" class="avatar">
+                </div>
+            </header>
+
+            <section class="enrolled-section">
+                <h2 class="section-title fade-in-up">Your Enrolled Courses</h2>
+                <div class="courses-grid" id="enrolled-courses-grid">
+                    </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="my-course.js"></script>
+</body>
+</html>

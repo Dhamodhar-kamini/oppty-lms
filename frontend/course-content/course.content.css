@@ -1,0 +1,118 @@
+/* ===== CSS VARIABLES - BLUE & WHITE THEME ===== */
+:root {
+    --primary-blue: #2563eb;
+    --dark-blue: #0f172a;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #5c6b81;
+    --border-color: #e2e8f0;
+    --active-bg: #f1f5f9;
+    --font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-family); }
+body { background-color: var(--white); color: var(--text-main); overflow: hidden; }
+a { text-decoration: none; color: inherit; }
+.app-container { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+
+/* =========================================
+   1. MAIN LEFT SIDEBAR
+========================================= */
+.main-sidebar { width: 260px; background-color: var(--white); padding: 32px 24px; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); flex-shrink: 0; z-index: 100; }
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding: 0 10px; }
+.sidebar-logo { height: 40px; object-fit: contain; }
+.close-sidebar { display: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; }
+
+.nav-menu { display: flex; flex-direction: column; gap: 6px; }
+.nav-item { display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: var(--text-muted); font-weight: 500; transition: 0.2s ease; cursor: pointer; font-size: 0.95rem; }
+.nav-item i { margin-right: 16px; font-size: 1.1rem; width: 20px; text-align: center; }
+.nav-item:hover { color: #334155; background-color: #f8fafc; }
+.nav-item.active { background-color: var(--active-bg); color: var(--primary-blue); font-weight: 600; }
+
+.nav-wrapper { display: flex; flex-direction: column; }
+.chevron { margin-left: auto; font-size: 0.8rem !important; transition: transform 0.3s ease; }
+.sub-menu { list-style: none; display: flex; flex-direction: column; gap: 16px; max-height: 0; opacity: 0; margin: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.4s ease; padding-left: 52px; }
+.sub-menu.show { max-height: 250px; opacity: 1; margin-top: 10px; margin-bottom: 16px; }
+.sub-menu li a { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; display: block; transition: 0.2s ease; }
+.sub-menu li a:hover { color: #334155; }
+.sub-menu li a.active-sub { color: var(--primary-blue); font-weight: 600; }
+
+/* =========================================
+   2. PLAYER WRAPPER & TOP NAV
+========================================= */
+.player-wrapper { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; background-color: var(--bg-light); }
+.player-nav { background: var(--white); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
+.nav-left { display: flex; align-items: center; gap: 20px; }
+.mobile-toggle { display: none; font-size: 1.2rem; cursor: pointer; color: var(--text-main); }
+.back-btn { color: var(--text-muted); font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+.back-btn:hover { color: var(--primary-blue); }
+
+.user-area { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+.user-name { font-weight: 600; font-size: 0.95rem; color: var(--dark-blue); }
+.avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--white); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+/* =========================================
+   3. SPLIT VIEW: VIDEO (LEFT) / SYLLABUS (RIGHT)
+========================================= */
+.split-view { display: flex; flex: 1; overflow: hidden; }
+
+/* VIDEO AREA */
+.content-display-area { flex: 1; padding: 32px; overflow-y: auto; background: var(--bg-light); }
+.video-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; margin-bottom: 30px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--white); }
+.player-icon { font-size: 4.5rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 15px; }
+#video-placeholder-title { font-weight: 500; font-size: 1.1rem; opacity: 0.9; }
+
+.lesson-info-bar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; gap: 20px; }
+.current-lesson-title { font-size: 1.8rem; font-weight: 800; color: var(--dark-blue); line-height: 1.3; }
+
+.btn-complete { background: #e0f2fe; color: var(--primary-blue); border: none; padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.btn-complete:hover { background: var(--primary-blue); color: var(--white); }
+
+.lesson-tabs { border-bottom: 1px solid var(--border-color); display: flex; gap: 32px; margin-bottom: 24px; }
+.lesson-tabs button { background: none; border: none; padding: 12px 0; font-weight: 600; font-size: 1rem; color: var(--text-muted); cursor: pointer; position: relative; transition: color 0.2s; }
+.lesson-tabs button.active-tab { color: var(--primary-blue); }
+.lesson-tabs button.active-tab::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--primary-blue); border-radius: 3px 3px 0 0; }
+
+.lesson-body { background: var(--white); padding: 32px; border-radius: 12px; border: 1px solid var(--border-color); line-height: 1.7; color: var(--text-muted); font-size: 1rem; }
+
+/* SYLLABUS SIDEBAR */
+.syllabus-sidebar { width: 350px; background: var(--white); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
+.syllabus-header { padding: 24px; border-bottom: 1px solid var(--border-color); }
+.syllabus-header h2 { color: var(--dark-blue); font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; }
+.chapters-count { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+
+.chapters-accordion { display: flex; flex-direction: column; }
+.chapter-item { border-bottom: 1px solid var(--border-color); }
+
+.chapter-header { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; color: var(--dark-blue); font-size: 1rem; transition: background 0.2s; }
+.chapter-header:hover { background-color: var(--bg-light); }
+.chapter-header.active { color: var(--primary-blue); }
+.chapter-header i { transition: transform 0.3s ease; color: var(--text-muted); }
+.chapter-item.open .chapter-header i { transform: rotate(180deg); color: var(--primary-blue); }
+
+.lesson-list { display: none; background: var(--white); padding-bottom: 10px; }
+.chapter-item.open .lesson-list { display: block; }
+
+.lesson-item { padding: 12px 24px 12px 24px; display: flex; align-items: flex-start; gap: 14px; color: var(--text-muted); font-size: 0.95rem; cursor: pointer; transition: 0.2s ease; line-height: 1.4; }
+.lesson-item:hover { background: var(--bg-light); color: var(--dark-blue); }
+.lesson-item i { margin-top: 3px; font-size: 0.9rem; }
+
+.lesson-item.active-lesson { background-color: #eff6ff; color: var(--primary-blue); font-weight: 600; border-left: 4px solid var(--primary-blue); padding-left: 20px; }
+.lesson-item.active-lesson i { color: var(--primary-blue); }
+
+@media (max-width: 1200px) {
+    .main-sidebar { display: none; position: fixed; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; box-shadow: 0 0 50px rgba(0,0,0,0.1); }
+    .main-sidebar.show { display: flex; transform: translateX(0); }
+    .mobile-toggle { display: block; }
+    .close-sidebar { display: block; }
+}
+
+@media (max-width: 992px) {
+    .split-view { flex-direction: column; overflow-y: auto; }
+    .content-display-area { padding: 20px; overflow-y: visible; }
+    .syllabus-sidebar { width: 100%; border-left: none; border-top: 1px solid var(--border-color); height: auto; flex-shrink: 1; }
+    .lesson-info-bar { flex-direction: column; gap: 15px; }
+    .btn-complete { width: 100%; justify-content: center; }
+}

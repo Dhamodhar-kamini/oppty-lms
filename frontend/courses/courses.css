@@ -148,7 +148,7 @@ a {
 }
 
 .sub-menu.show {
-    max-height: 250px; /* Arbitrary enough space */
+    max-height: 250px;
     opacity: 1;
     margin-top: 12px;
     margin-bottom: 8px;
@@ -246,7 +246,7 @@ a {
     background-color: #0f172a;
     color: var(--bg-surface);
     border: none;
-    padding: 6px 6px 6px 20px; /* Asymmetric padding: less padding on the right so the badge fits nicely */
+    padding: 6px 6px 6px 20px; 
     border-radius: 100px;
     font-weight: 700;
     font-size: 0.95rem;
@@ -273,7 +273,6 @@ a {
     letter-spacing: 0.02em;
 }
 
-/* Make sure the badge-accent class isn't accidentally picking up absolute positioning from other badges */
 [class^="badge-"]:not(.badge-accent) {
     position: absolute;
     top: 16px;
@@ -373,49 +372,52 @@ a {
     gap: 16px;
 }
 
-.hero-illustration {
+/* ===== UNIQUE TECH ICON STYLING (Perfect Center) ===== */
+.hero-banner .tech-icon-container {
     position: absolute;
     right: 10%;
     top: 50%;
     transform: translateY(-50%);
-    width: 300px;
-    height: 300px;
-}
-
-.abstract-shape {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(40px);
-    opacity: 0.6;
-}
-
-.shape-1 {
-    width: 200px;
-    height: 200px;
-    background: #3b82f6;
-    top: 0;
-    left: 0;
-    animation: float 6s ease-in-out infinite;
-}
-
-.shape-2 {
-    width: 150px;
-    height: 150px;
-    background: #8b5cf6;
-    bottom: 0;
-    right: 0;
-    animation: float 8s ease-in-out infinite reverse;
-}
-
-.hero-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 8rem;
-    color: rgba(255, 255, 255, 0.9);
+    width: 240px;
+    height: 240px;
     z-index: 3;
-    animation: spin 20s linear infinite;
+    /* GRID PERFECTLY CENTERS ALL CHILDREN */
+    display: grid;
+    place-items: center;
+    /* Glassmorphic glowing circle behind the icon */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.3), inset 0 0 20px rgba(255,255,255,0.05);
+    /* Soft floating animation */
+    animation: iconFloat 6s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(-50%) translateY(0px); }
+    50% { transform: translateY(-50%) translateY(-15px); }
+}
+
+.hero-banner .tech-icon {
+    /* Stacks all grid children in the exact center cell */
+    grid-area: 1 / 1;
+    font-size: 7.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    z-index: 3;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+    transition: opacity 1s ease-in-out, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tech-icon-current {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.tech-icon-next {
+    opacity: 0;
+    transform: scale(0.8) rotate(-15deg);
 }
 
 /* ===== COURSES GRID ===== */
@@ -499,19 +501,6 @@ a {
     opacity: 1;
 }
 
-[class^="badge-"]:not(.badge-accent) {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    padding: 6px 12px;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 800;
-    z-index: 10;
-    letter-spacing: 0.05em;
-    backdrop-filter: blur(4px);
-}
-
 .badge-new { background-color: rgba(255, 255, 255, 0.9); color: var(--primary); }
 .badge-hot { background-color: var(--accent-red); color: white; }
 
@@ -522,13 +511,7 @@ a {
     flex: 1;
 }
 
-.card-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
-}
+/* Note: .card-title has been removed per request */
 
 .card-desc {
     font-size: 0.9rem;
@@ -574,24 +557,7 @@ a {
     align-items: center;
 }
 
-.pricing {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.price-old {
-    text-decoration: line-through;
-    color: #94a3b8;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.price-new {
-    color: var(--text-main);
-    font-weight: 800;
-    font-size: 1.3rem;
-}
+/* Note: .pricing has been removed per request */
 
 .tags .tag {
     background-color: var(--bg-surface-hover);
@@ -608,16 +574,6 @@ a {
 }
 
 /* ===== ANIMATIONS ===== */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes spin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
 .fade-in-up {
     opacity: 0;
     transform: translateY(20px);
@@ -634,7 +590,7 @@ a {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1200px) {
     .hero-content { max-width: 70%; }
-    .hero-illustration { opacity: 0.3; right: -5%; }
+    .hero-banner .tech-icon-container { opacity: 0.3; right: -5%; }
 }
 
 @media (max-width: 992px) {
@@ -660,7 +616,7 @@ a {
     }
     
     .hero-content { max-width: 100%; }
-    .hero-illustration { display: none; }
+    .hero-banner .tech-icon-container { display: none; }
 }
 
 @media (max-width: 600px) {
