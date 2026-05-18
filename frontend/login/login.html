@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oppty TechHub LMS - Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./login.css">
 </head>
@@ -29,12 +28,9 @@
 
             <div class="hero-content">
 
-                <div class="float-icon float-book">
-                    <i class="fa-solid fa-envelope-open-text"></i>
-                </div>
-                <div class="float-icon float-bulb">
-                    <i class="fa-solid fa-lightbulb"></i>
-                </div>
+                <!-- Floating decorative icons -->
+                <div class="float-icon float-book">📩</div>
+                <div class="float-icon float-bulb">💡</div>
 
                 <div class="hero-main">
                     <p class="hero-eyebrow">
@@ -71,9 +67,7 @@
                             <div class="avatar-more">+2k</div>
                         </div>
                         <div class="reviews-info">
-                            <span class="stars">
-                                <i class="fa-solid fa-star"></i> 4.9
-                            </span>
+                            <span class="stars">★ 4.9</span>
                             <span class="reviews-label">Trusted Reviews</span>
                         </div>
                     </div>
@@ -81,28 +75,28 @@
 
                 <div class="stats-row">
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div class="stat-icon">🎓</div>
                         <div class="stat-text">
                             <h4>500+</h4>
                             <span>Online Courses</span>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <div class="stat-icon">👨‍🏫</div>
                         <div class="stat-text">
                             <h4>2k+</h4>
                             <span>Expert Tutors</span>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-certificate"></i></div>
+                        <div class="stat-icon">📜</div>
                         <div class="stat-text">
                             <h4>400+</h4>
                             <span>Certified Courses</span>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                        <div class="stat-icon">👩‍🎓</div>
                         <div class="stat-text">
                             <h4>50K+</h4>
                             <span>Online Students</span>
@@ -122,47 +116,37 @@
                 </div>
 
                 <div class="alert-box" id="alert-box">
-                    <i class="fa-solid fa-circle-exclamation"></i>
                     <span id="alert-msg">Invalid credentials. Please try again.</span>
                 </div>
 
                 <form id="login-form" novalidate>
 
                     <div class="form-group">
-                        <label for="login-email">
-                            <i class="fa-solid fa-envelope"></i> Email Address
-                        </label>
+                        <label for="login-email">Email Address</label>
                         <div class="input-wrapper">
                             <input type="email" id="login-email"
                                 placeholder="Enter your email" autocomplete="email">
                         </div>
                         <span class="field-error" id="email-error">
-                            <i class="fa-solid fa-circle-xmark"></i> Please enter a valid email
+                            Please enter a valid email
                         </span>
                     </div>
 
                     <div class="form-group">
-                        <label for="login-password">
-                            <i class="fa-solid fa-lock"></i> Password
-                        </label>
+                        <label for="login-password">Password</label>
                         <div class="input-wrapper">
                             <input type="password" id="login-password"
                                 placeholder="Enter your password" autocomplete="current-password">
                             <button type="button" class="toggle-password" id="toggle-password">
-                                <i class="fa-solid fa-eye" id="eye-icon"></i>
+                                <span id="eye-icon">👁</span>
                             </button>
                         </div>
                         <span class="field-error" id="password-error">
-                            <i class="fa-solid fa-circle-xmark"></i> Password must be at least 6 characters
+                            Password must be at least 6 characters
                         </span>
                     </div>
 
                     <div class="form-extras">
-                        <label class="remember-me">
-                            <input type="checkbox" id="remember-me">
-                            <span class="checkmark"></span>
-                            <span>Remember me</span>
-                        </label>
                         <a href="#" class="forgot-link">Forgot password?</a>
                     </div>
 
@@ -171,7 +155,7 @@
                         <div class="btn-loader" id="btn-loader">
                             <span></span><span></span><span></span>
                         </div>
-                        <i class="fa-solid fa-arrow-right-long" id="btn-icon"></i>
+                        <span id="btn-icon">→</span>
                     </button>
                 </form>
 
@@ -179,15 +163,6 @@
                     Don't have an account?
                     <a href="#" id="open-signup">Sign up for free</a>
                 </p>
-
-                <p class="login-hint">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span>
-                        <strong>Admin:</strong> admin@oppty.com / admin123<br>
-                        <strong>Student:</strong> student@oppty.com / student123
-                    </span>
-                </p>
-
             </div>
         </div>
     </div>
@@ -197,68 +172,58 @@
         <div class="modal">
             <div class="modal-header">
                 <h2>Create your Account</h2>
-                <i class="fa-solid fa-xmark close-modal" id="close-signup"></i>
+                <span class="close-modal" id="close-signup">✕</span>
             </div>
             <div class="modal-body">
 
                 <p class="modal-subtitle">Join thousands of learners on Oppty TechHub</p>
 
-                <!-- Signup Alert -->
                 <div class="alert-box" id="signup-alert">
-                    <i class="fa-solid fa-circle-exclamation"></i>
                     <span id="signup-alert-msg">Please fill in all fields correctly.</span>
                 </div>
 
                 <form id="signup-form" novalidate>
 
                     <div class="form-group">
-                        <label for="signup-name">
-                            <i class="fa-solid fa-user"></i> Full Name
-                        </label>
+                        <label for="signup-name">Full Name</label>
                         <div class="input-wrapper">
                             <input type="text" id="signup-name" placeholder="Enter your full name">
                         </div>
                         <span class="field-error" id="signup-name-error">
-                            <i class="fa-solid fa-circle-xmark"></i> Name must be at least 3 characters
+                            Name must be at least 3 characters
                         </span>
                     </div>
 
                     <div class="form-group">
-                        <label for="signup-email">
-                            <i class="fa-solid fa-envelope"></i> Email Address
-                        </label>
+                        <label for="signup-email">Email Address</label>
                         <div class="input-wrapper">
                             <input type="email" id="signup-email" placeholder="Enter your email">
                         </div>
                         <span class="field-error" id="signup-email-error">
-                            <i class="fa-solid fa-circle-xmark"></i> Please enter a valid email
+                            Please enter a valid email
                         </span>
                     </div>
 
                     <div class="form-group">
-                        <label for="signup-phone">
-                            <i class="fa-solid fa-phone"></i> Phone Number
-                        </label>
+                        <label for="signup-phone">Phone Number</label>
                         <div class="input-wrapper">
                             <input type="tel" id="signup-phone" placeholder="Enter your phone number" maxlength="15">
                         </div>
                         <span class="field-error" id="signup-phone-error">
-                            <i class="fa-solid fa-circle-xmark"></i> Please enter a valid phone number (10–15 digits)
+                            Please enter a valid phone number (10–15 digits)
                         </span>
                     </div>
 
                     <div class="form-group">
-                        <label for="signup-password">
-                            <i class="fa-solid fa-lock"></i> Password
-                        </label>
+                        <label for="signup-password">Password</label>
                         <div class="input-wrapper">
                             <input type="password" id="signup-password" placeholder="Create a password">
                             <button type="button" class="toggle-password" id="signup-toggle-pass">
-                                <i class="fa-solid fa-eye" id="signup-eye-icon"></i>
+                                <span id="signup-eye-icon">👁</span>
                             </button>
                         </div>
                         <span class="field-error" id="signup-password-error">
-                            <i class="fa-solid fa-circle-xmark"></i> Password must be at least 6 characters
+                            Password must be at least 6 characters
                         </span>
                     </div>
 
@@ -269,7 +234,7 @@
                             <div class="btn-loader" id="signup-btn-loader">
                                 <span></span><span></span><span></span>
                             </div>
-                            <i class="fa-solid fa-check" id="signup-btn-icon"></i>
+                            <span id="signup-btn-icon">✓</span>
                         </button>
                     </div>
                 </form>
@@ -285,7 +250,6 @@
 
     <!-- Toast -->
     <div class="toast" id="toast">
-        <i class="fa-solid fa-circle-check"></i>
         <span id="toast-msg">Login successful!</span>
     </div>
 
