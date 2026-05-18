@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oppty TechHub LMS - Admin</title>
+    <title>Oppty TechHub LMS - Admin Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./admin.css">
@@ -16,49 +16,34 @@
             <span class="admin-tag">ADMIN</span>
             <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
         </div>
-        
         <nav class="nav-menu">
             <a href="#" class="nav-item active" data-section="dashboard">
-                <i class="fa-solid fa-gauge-high"></i>
-                <span>Dashboard</span>
+                <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
             </a>
-            
             <div class="nav-wrapper">
                 <div class="nav-item" id="course-toggle">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Courses</span>
+                    <i class="fa-solid fa-graduation-cap"></i><span>Courses</span>
                     <i class="fa-solid fa-chevron-down chevron"></i>
                 </div>
                 <ul class="sub-menu" id="sub-menu">
                     <li><a href="#" data-section="all-courses" class="active">All Courses</a></li>
                     <li><a href="#" data-section="add-course">Add New Course</a></li>
-                    <li><a href="#" data-section="categories">Categories</a></li>
                 </ul>
             </div>
-
             <a href="#" class="nav-item" data-section="users">
-                <i class="fa-solid fa-users"></i>
-                <span>Users</span>
+                <i class="fa-solid fa-users"></i><span>Users</span>
             </a>
-            <a href="#" class="nav-item" data-section="instructors">
-                <i class="fa-solid fa-chalkboard-user"></i>
-                <span>Instructors</span>
+            <a href="#" class="nav-item" data-section="coupons">
+                <i class="fa-solid fa-ticket"></i><span>Coupons</span>
             </a>
             <a href="#" class="nav-item" data-section="revenue">
-                <i class="fa-solid fa-sack-dollar"></i>
-                <span>Revenue</span>
+                <i class="fa-solid fa-sack-dollar"></i><span>Revenue</span>
             </a>
             <a href="#" class="nav-item" data-section="analytics">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Analytics</span>
+                <i class="fa-solid fa-chart-pie"></i><span>Analytics</span>
             </a>
-            <a href="#" class="nav-item" data-section="settings">
-                <i class="fa-solid fa-gear"></i>
-                <span>Settings</span>
-            </a>
-            <a href="../login/login.html" class="nav-item logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
+            <a href="#" class="nav-item logout" id="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
             </a>
         </nav>
     </aside>
@@ -68,276 +53,183 @@
             <div class="mobile-toggle" id="mobile-toggle">
                 <i class="fa-solid fa-bars-staggered"></i>
             </div>
-            
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" placeholder="Search users, courses, transactions...">
             </div>
-
             <div class="user-profile">
-                <button class="btn-icon notification-btn">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="notification-dot"></span>
-                </button>
-                
-                <div class="profile-info">
+                <div class="profile-info" id="profile-trigger">
                     <div class="profile-text">
                         <span class="user-name">ADMIN</span>
                         <span class="user-role">Super Admin</span>
                     </div>
-                    <img src="https://i.pravatar.cc/150?img=68" alt="Admin Profile" class="avatar">
+                    <img src="https://i.pravatar.cc/150?img=68" alt="Admin" class="avatar" id="admin-avatar">
                 </div>
             </div>
         </header>
 
-        <!-- DASHBOARD SECTION -->
+        <!-- ===== DASHBOARD ===== -->
         <section class="content-section active" id="dashboard-section">
             <div class="page-header fade-in-up">
-                <div>
-                    <h1>Welcome back, Admin 👋</h1>
-                    <p>Here's what's happening with your platform today.</p>
-                </div>
-                <button class="btn-primary">
+                <div><h1>Dashboard</h1><p>Overview of your platform</p></div>
+                <button class="btn-primary" data-nav="add-course">
                     <i class="fa-solid fa-plus"></i> Add New Course
                 </button>
             </div>
-
-            <!-- STATS CARDS -->
             <div class="stats-grid">
-                <div class="stat-card fade-in-up" style="animation-delay: 0.1s;">
-                    <div class="stat-icon icon-blue">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Total Users</span>
-                        <h3>12,847</h3>
-                        <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 12.5% this month</span>
-                    </div>
+                <div class="stat-card fade-in-up" style="animation-delay:0.1s">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info"><span class="stat-label">Total Users</span><h3 id="dash-total-users">0</h3></div>
                 </div>
-
-                <div class="stat-card fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="stat-icon icon-green">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Total Courses</span>
-                        <h3>248</h3>
-                        <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 8 new this week</span>
-                    </div>
+                <div class="stat-card fade-in-up" style="animation-delay:0.2s">
+                    <div class="stat-icon icon-green"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="stat-info"><span class="stat-label">Total Courses</span><h3 id="dash-total-courses">0</h3></div>
                 </div>
-
-                <div class="stat-card fade-in-up" style="animation-delay: 0.3s;">
-                    <div class="stat-icon icon-orange">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Revenue</span>
-                        <h3>$84,392</h3>
-                        <span class="stat-change positive"><i class="fa-solid fa-arrow-up"></i> 23.1% vs last month</span>
-                    </div>
+                <div class="stat-card fade-in-up" style="animation-delay:0.3s">
+                    <div class="stat-icon icon-orange"><i class="fa-solid fa-ticket"></i></div>
+                    <div class="stat-info"><span class="stat-label">Total Coupons</span><h3 id="dash-total-coupons">0</h3></div>
                 </div>
-
-                <div class="stat-card fade-in-up" style="animation-delay: 0.4s;">
-                    <div class="stat-icon icon-red">
-                        <i class="fa-solid fa-chalkboard-user"></i>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Active Instructors</span>
-                        <h3>42</h3>
-                        <span class="stat-change negative"><i class="fa-solid fa-arrow-down"></i> 2.3% this month</span>
-                    </div>
+                <div class="stat-card fade-in-up" style="animation-delay:0.4s">
+                    <div class="stat-icon icon-purple"><i class="fa-solid fa-user-check"></i></div>
+                    <div class="stat-info"><span class="stat-label">Active Enrollments</span><h3>3,492</h3></div>
                 </div>
             </div>
-
-            <!-- CHART & RECENT ACTIVITY -->
             <div class="dashboard-grid">
-                <div class="chart-card fade-in-up" style="animation-delay: 0.5s;">
+                <div class="chart-card fade-in-up" style="animation-delay:0.5s">
                     <div class="card-header">
-                        <div>
-                            <h3>Revenue Overview</h3>
-                            <p>Monthly earnings breakdown</p>
-                        </div>
-                        <select class="select-input">
-                            <option>Last 7 Months</option>
-                            <option>Last Year</option>
-                        </select>
+                        <div><h3>Revenue Trend</h3><p>Last 7 months</p></div>
                     </div>
                     <div class="chart-container">
                         <div class="chart-bars">
-                            <div class="bar-group">
-                                <div class="bar" style="height: 45%;"><span>$4.2k</span></div>
-                                <span class="bar-label">Mar</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar" style="height: 65%;"><span>$6.1k</span></div>
-                                <span class="bar-label">Apr</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar" style="height: 55%;"><span>$5.2k</span></div>
-                                <span class="bar-label">May</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar" style="height: 80%;"><span>$7.6k</span></div>
-                                <span class="bar-label">Jun</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar" style="height: 70%;"><span>$6.7k</span></div>
-                                <span class="bar-label">Jul</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar active" style="height: 95%;"><span>$8.4k</span></div>
-                                <span class="bar-label">Aug</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar" style="height: 60%;"><span>$5.8k</span></div>
-                                <span class="bar-label">Sep</span>
-                            </div>
+                            <div class="bar-group"><div class="bar" style="height:45%"><span>$4.2k</span></div><span class="bar-label">Mar</span></div>
+                            <div class="bar-group"><div class="bar" style="height:65%"><span>$6.1k</span></div><span class="bar-label">Apr</span></div>
+                            <div class="bar-group"><div class="bar" style="height:55%"><span>$5.2k</span></div><span class="bar-label">May</span></div>
+                            <div class="bar-group"><div class="bar" style="height:80%"><span>$7.6k</span></div><span class="bar-label">Jun</span></div>
+                            <div class="bar-group"><div class="bar" style="height:70%"><span>$6.7k</span></div><span class="bar-label">Jul</span></div>
+                            <div class="bar-group"><div class="bar active" style="height:95%"><span>$8.4k</span></div><span class="bar-label">Aug</span></div>
+                            <div class="bar-group"><div class="bar" style="height:60%"><span>$5.8k</span></div><span class="bar-label">Sep</span></div>
                         </div>
                     </div>
                 </div>
-
-                <div class="activity-card fade-in-up" style="animation-delay: 0.6s;">
-                    <div class="card-header">
-                        <div>
-                            <h3>Recent Activity</h3>
-                            <p>Latest platform updates</p>
-                        </div>
-                    </div>
+                <div class="activity-card fade-in-up" style="animation-delay:0.6s">
+                    <div class="card-header"><div><h3>Recent Activity</h3></div></div>
                     <ul class="activity-list">
-                        <li>
-                            <div class="activity-icon green"><i class="fa-solid fa-user-plus"></i></div>
-                            <div>
-                                <p><strong>New user registered</strong></p>
-                                <span>John Doe joined the platform</span>
-                            </div>
-                            <span class="activity-time">2m</span>
-                        </li>
-                        <li>
-                            <div class="activity-icon blue"><i class="fa-solid fa-book"></i></div>
-                            <div>
-                                <p><strong>Course published</strong></p>
-                                <span>Advanced React Patterns</span>
-                            </div>
-                            <span class="activity-time">15m</span>
-                        </li>
-                        <li>
-                            <div class="activity-icon orange"><i class="fa-solid fa-dollar-sign"></i></div>
-                            <div>
-                                <p><strong>Payment received</strong></p>
-                                <span>$249 from Sarah Wilson</span>
-                            </div>
-                            <span class="activity-time">1h</span>
-                        </li>
-                        <li>
-                            <div class="activity-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                            <div>
-                                <p><strong>Course reported</strong></p>
-                                <span>Pending admin review</span>
-                            </div>
-                            <span class="activity-time">3h</span>
-                        </li>
+                        <li><div class="activity-icon green"><i class="fa-solid fa-user-plus"></i></div><div><p><strong>New user registered</strong></p><span>John Doe</span></div></li>
+                        <li><div class="activity-icon blue"><i class="fa-solid fa-book"></i></div><div><p><strong>Course published</strong></p><span>Advanced React Patterns</span></div></li>
+                        <li><div class="activity-icon orange"><i class="fa-solid fa-dollar-sign"></i></div><div><p><strong>Payment received</strong></p><span>$249 from Sarah Wilson</span></div></li>
+                        <li><div class="activity-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div><div><p><strong>Course reported</strong></p><span>Pending review</span></div></li>
                     </ul>
-                </div>
-            </div>
-
-            <!-- RECENT COURSES TABLE -->
-            <div class="table-card fade-in-up" style="animation-delay: 0.7s;">
-                <div class="card-header">
-                    <div>
-                        <h3>Recent Courses</h3>
-                        <p>Manage your latest courses</p>
-                    </div>
-                    <a href="#" class="see-all">View all <i class="fa-solid fa-arrow-right-long"></i></a>
-                </div>
-                <div class="table-wrapper">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Course</th>
-                                <th>Instructor</th>
-                                <th>Students</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="course-cell">
-                                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=80&q=80" alt="">
-                                        <div>
-                                            <strong>Cinematic Web Animations</strong>
-                                            <span>UI/UX • Advanced</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Oppty TechHub</td>
-                                <td>1,247</td>
-                                <td>$69.00</td>
-                                <td><span class="status published">Published</span></td>
-                                <td>
-                                    <button class="btn-icon-sm"><i class="fa-solid fa-eye"></i></button>
-                                    <button class="btn-icon-sm"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon-sm danger"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="course-cell">
-                                        <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=80&q=80" alt="">
-                                        <div>
-                                            <strong>Advanced Django Architecture</strong>
-                                            <span>Backend • Intermediate</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Alex Morgan</td>
-                                <td>892</td>
-                                <td>$49.00</td>
-                                <td><span class="status published">Published</span></td>
-                                <td>
-                                    <button class="btn-icon-sm"><i class="fa-solid fa-eye"></i></button>
-                                    <button class="btn-icon-sm"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon-sm danger"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="course-cell">
-                                        <img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=80&q=80" alt="">
-                                        <div>
-                                            <strong>Type-Safe DBs with Prisma</strong>
-                                            <span>Database • Beginner</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Sarah Wilson</td>
-                                <td>2,103</td>
-                                <td>FREE</td>
-                                <td><span class="status draft">Draft</span></td>
-                                <td>
-                                    <button class="btn-icon-sm"><i class="fa-solid fa-eye"></i></button>
-                                    <button class="btn-icon-sm"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon-sm danger"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </section>
 
-        <!-- USERS SECTION -->
-        <section class="content-section" id="users-section">
+        <!-- ===== ALL COURSES ===== -->
+        <section class="content-section" id="all-courses-section">
+            <div class="page-header fade-in-up">
+                <div><h1>All Courses</h1><p>Manage all courses on your platform</p></div>
+                <button class="btn-primary" data-nav="add-course">
+                    <i class="fa-solid fa-plus"></i> Add Course
+                </button>
+            </div>
+            <div class="courses-admin-grid" id="admin-courses-grid"></div>
+        </section>
+
+        <!-- ===== COURSE DETAIL ===== -->
+        <section class="content-section" id="course-detail-section">
             <div class="page-header fade-in-up">
                 <div>
-                    <h1>User Management</h1>
-                    <p>Manage all registered users on the platform.</p>
+                    <button class="back-btn" id="back-to-courses">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Courses
+                    </button>
+                    <h1 id="detail-course-title">Course Title</h1>
+                    <p id="detail-course-meta"></p>
                 </div>
-                <button class="btn-primary"><i class="fa-solid fa-user-plus"></i> Add User</button>
+                <button class="btn-primary" id="add-subtopic-btn">
+                    <i class="fa-solid fa-plus"></i> Add Subtopic
+                </button>
             </div>
+            <div class="course-detail-banner fade-in-up" id="detail-banner"></div>
+            <div class="subtopics-container fade-in-up" style="animation-delay:0.2s">
+                <div class="subtopics-header">
+                    <h2>Course Content</h2>
+                    <span class="subtopic-count" id="subtopic-count">0 Subtopics</span>
+                </div>
+                <div class="subtopics-list" id="subtopics-list"></div>
+            </div>
+        </section>
 
+        <!-- ===== ADD COURSE ===== -->
+        <section class="content-section" id="add-course-section">
+            <div class="page-header fade-in-up">
+                <div><h1>Add New Course</h1><p>Fill in the details to create a new course</p></div>
+            </div>
+            <div class="form-card fade-in-up">
+                <form id="add-course-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Course Title <span class="required">*</span></label>
+                            <input type="text" id="course-title" placeholder="e.g. Advanced React Patterns" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Instructor Name <span class="required">*</span></label>
+                            <input type="text" id="course-instructor" placeholder="e.g. John Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Price ($) <span class="required">*</span></label>
+                            <input type="number" id="course-price" placeholder="0.00" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Level <span class="required">*</span></label>
+                            <select id="course-level" required>
+                                <option value="">Select Level</option>
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Thumbnail Image <span class="required">*</span></label>
+                        <div class="file-upload-area" id="course-thumb-upload">
+                            <input type="file" id="course-thumb-file" accept="image/*" hidden>
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p>Click to upload thumbnail</p>
+                            <span>JPG, PNG, WEBP (max 5MB)</span>
+                        </div>
+                        <div class="uploaded-file" id="course-thumb-preview" style="display:none">
+                            <img id="course-thumb-img" src="" alt=""
+                                style="width:48px;height:48px;border-radius:8px;object-fit:cover">
+                            <span id="course-thumb-name" style="flex:1"></span>
+                            <button type="button" class="remove-file-btn" id="remove-course-thumb">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description <span class="required">*</span></label>
+                        <textarea id="course-description" rows="4"
+                            placeholder="Describe what students will learn..." required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" data-nav="all-courses">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-check"></i> Create Course
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ===== USERS ===== -->
+        <section class="content-section" id="users-section">
+            <div class="page-header fade-in-up">
+                <div><h1>User Management</h1><p>Manage all registered users</p></div>
+                <button class="btn-primary" id="open-add-user-btn">
+                    <i class="fa-solid fa-user-plus"></i> Add User
+                </button>
+            </div>
             <div class="table-card fade-in-up">
                 <div class="table-wrapper">
                     <table class="data-table">
@@ -351,30 +243,493 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="users-table-body">
-                            <!-- Populated via JS -->
+                        <tbody id="users-table-body"></tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </section>
+
+        <!-- ===== COUPONS ===== -->
+        <section class="content-section" id="coupons-section">
+            <div class="page-header fade-in-up">
+                <div><h1>Coupon Management</h1><p>Create and manage discount coupons</p></div>
+                <button class="btn-primary" id="open-add-coupon-btn">
+                    <i class="fa-solid fa-plus"></i> Add Coupon
+                </button>
+            </div>
+            <div class="coupons-toolbar fade-in-up" style="animation-delay:0.1s">
+                <div class="coupons-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="coupon-search-input" placeholder="Search coupons...">
+                </div>
+                <div class="coupons-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="expired">Expired</button>
+                    <button class="filter-btn" data-filter="scheduled">Scheduled</button>
+                    <button class="filter-btn" data-filter="inactive">Inactive</button>
+                </div>
+            </div>
+            <div class="coupon-table-card fade-in-up" style="animation-delay:0.2s">
+                <div class="coupon-table-header">
+                    <div><h3>All Coupons</h3><p>Click any code to copy</p></div>
+                    <span class="coupon-count-badge" id="coupon-count-badge">0 Coupons</span>
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="coupon-table">
+                        <thead>
+                            <tr>
+                                <th>Code &amp; Description</th>
+                                <th>Discount</th>
+                                <th>Course</th>
+                                <th>Usage</th>
+                                <th>Validity</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coupon-tbody"></tbody>
+                    </table>
+                </div>
+                <div class="coupon-pagination">
+                    <span class="coupon-page-info" id="coupon-page-info">No coupons yet</span>
+                    <div class="coupon-page-btns" id="coupon-page-btns"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== REVENUE ===== -->
+        <section class="content-section" id="revenue-section">
+            <div class="page-header fade-in-up">
+                <div><h1>Revenue</h1><p>Track your earnings and transactions</p></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="stat-icon icon-green"><i class="fa-solid fa-dollar-sign"></i></div>
+                    <div class="stat-info"><span class="stat-label">Monthly Revenue</span><h3>$84,392</h3></div>
+                </div>
+                <div class="stat-card fade-in-up" style="animation-delay:.1s">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-credit-card"></i></div>
+                    <div class="stat-info"><span class="stat-label">Total Transactions</span><h3>423</h3></div>
+                </div>
+                <div class="stat-card fade-in-up" style="animation-delay:.2s">
+                    <div class="stat-icon icon-orange"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="stat-info"><span class="stat-label">Average Order Value</span><h3>$199.50</h3></div>
+                </div>
+            </div>
+            <div class="table-card fade-in-up" style="margin-top:32px">
+                <div class="card-header"><div><h3>Recent Transactions</h3></div></div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Transaction ID</th><th>User</th><th>Course</th><th>Amount</th><th>Date</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>#TXN-1024</td><td>Sarah Wilson</td><td>Cinematic Web Animations</td><td>$69.00</td><td>2024-09-12</td><td><span class="status published">Completed</span></td></tr>
+                            <tr><td>#TXN-1023</td><td>John Doe</td><td>Advanced Django</td><td>$49.00</td><td>2024-09-12</td><td><span class="status published">Completed</span></td></tr>
+                            <tr><td>#TXN-1022</td><td>Emma Davis</td><td>Type-Safe DBs</td><td>$0.00</td><td>2024-09-11</td><td><span class="status draft">Pending</span></td></tr>
+                            <tr><td>#TXN-1021</td><td>Michael Brown</td><td>Cinematic Web Animations</td><td>$69.00</td><td>2024-09-11</td><td><span class="status published">Completed</span></td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- COURSES SECTION -->
-        <section class="content-section" id="all-courses-section">
+        <!-- ===== ANALYTICS ===== -->
+        <section class="content-section" id="analytics-section">
             <div class="page-header fade-in-up">
-                <div>
-                    <h1>All Courses</h1>
-                    <p>Manage all courses on the platform.</p>
-                </div>
-                <button class="btn-primary"><i class="fa-solid fa-plus"></i> Add Course</button>
+                <div><h1>Analytics</h1><p>Platform performance insights</p></div>
             </div>
-
-            <div class="courses-admin-grid" id="admin-courses-grid">
-                <!-- Populated via JS -->
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-eye"></i></div>
+                    <div class="stat-info"><span class="stat-label">Page Views</span><h3>48,237</h3></div>
+                </div>
+                <div class="stat-card fade-in-up" style="animation-delay:.1s">
+                    <div class="stat-icon icon-green"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-info"><span class="stat-label">Avg. Session</span><h3>8m 42s</h3></div>
+                </div>
+                <div class="stat-card fade-in-up" style="animation-delay:.2s">
+                    <div class="stat-icon icon-orange"><i class="fa-solid fa-percent"></i></div>
+                    <div class="stat-info"><span class="stat-label">Completion Rate</span><h3>67.4%</h3></div>
+                </div>
+                <div class="stat-card fade-in-up" style="animation-delay:.3s">
+                    <div class="stat-icon icon-purple"><i class="fa-solid fa-star"></i></div>
+                    <div class="stat-info"><span class="stat-label">Average Rating</span><h3>4.8</h3></div>
+                </div>
+            </div>
+            <div class="chart-card fade-in-up" style="margin-top:32px">
+                <div class="card-header">
+                    <div><h3>User Growth</h3><p>New registrations over the last 7 months</p></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-bars">
+                        <div class="bar-group"><div class="bar" style="height:35%"><span>420</span></div><span class="bar-label">Mar</span></div>
+                        <div class="bar-group"><div class="bar" style="height:50%"><span>612</span></div><span class="bar-label">Apr</span></div>
+                        <div class="bar-group"><div class="bar" style="height:60%"><span>754</span></div><span class="bar-label">May</span></div>
+                        <div class="bar-group"><div class="bar" style="height:70%"><span>891</span></div><span class="bar-label">Jun</span></div>
+                        <div class="bar-group"><div class="bar" style="height:75%"><span>945</span></div><span class="bar-label">Jul</span></div>
+                        <div class="bar-group"><div class="bar active" style="height:90%"><span>1,124</span></div><span class="bar-label">Aug</span></div>
+                        <div class="bar-group"><div class="bar" style="height:85%"><span>1,047</span></div><span class="bar-label">Sep</span></div>
+                    </div>
+                </div>
             </div>
         </section>
-
     </main>
+
+    <!-- ===== PROFILE MODAL ===== -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Update Profile</h2>
+                <i class="fa-solid fa-xmark close-modal" id="close-modal"></i>
+            </div>
+            <div class="modal-body">
+                <div class="avatar-preview">
+                    <img src="https://i.pravatar.cc/150?img=68" alt="" id="avatar-preview-img">
+                    <label for="avatar-upload" class="upload-overlay">
+                        <i class="fa-solid fa-camera"></i><span>Change</span>
+                    </label>
+                    <input type="file" id="avatar-upload" accept="image/*" hidden>
+                </div>
+                <div class="form-group">
+                    <label>Admin Name</label>
+                    <input type="text" id="profile-name-input" value="ADMIN">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <input type="text" value="Super Admin" disabled>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancel-profile">Cancel</button>
+                    <button type="button" class="btn-primary" id="save-profile">
+                        <i class="fa-solid fa-check"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== VIDEO PREVIEW MODAL ===== -->
+    <div class="modal-overlay" id="preview-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2 id="preview-title">Video Preview</h2>
+                <i class="fa-solid fa-xmark close-modal" id="close-preview"></i>
+            </div>
+            <div class="modal-body">
+                <div class="video-wrapper" id="video-wrapper"></div>
+                <div id="preview-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADD/EDIT SUBTOPIC MODAL ===== -->
+    <div class="modal-overlay" id="subtopic-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="subtopic-modal-title">Add Subtopic</h2>
+                <i class="fa-solid fa-xmark close-modal" id="close-subtopic"></i>
+            </div>
+            <div class="modal-body">
+                <form id="subtopic-form">
+                    <div class="form-group">
+                        <label>Subtopic Title <span class="required">*</span></label>
+                        <input type="text" id="subtopic-title" placeholder="e.g. Data Types in Python" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Video URL <span class="required">*</span></label>
+                        <input type="url" id="subtopic-video" placeholder="https://youtube.com/watch?v=..." required>
+                        <small class="form-hint">
+                            <i class="fa-solid fa-circle-info"></i> YouTube, Vimeo, or direct video URL
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes / Materials</label>
+                        <div class="file-upload-area" id="notes-upload-area">
+                            <input type="file" id="subtopic-notes"
+                                accept=".pdf,.doc,.docx,.ppt,.pptx,.txt" hidden>
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p>Click to upload or drag &amp; drop</p>
+                            <span>PDF, DOC, DOCX, PPT, TXT</span>
+                        </div>
+                        <div class="uploaded-file" id="uploaded-file-name" style="display:none">
+                            <i class="fa-solid fa-file"></i>
+                            <span id="file-name-text"></span>
+                            <button type="button" class="remove-file-btn" id="remove-file">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="subtopic-description" rows="3"
+                            placeholder="Brief description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <input type="text" id="subtopic-duration" placeholder="e.g. 15 min">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancel-subtopic">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-check"></i>
+                            <span id="subtopic-submit-text">Add Subtopic</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MCQ TEST MODAL ===== -->
+    <div class="modal-overlay" id="mcq-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2 id="mcq-modal-title">MCQ Test</h2>
+                <i class="fa-solid fa-xmark close-modal" id="close-mcq"></i>
+            </div>
+            <div class="modal-body">
+                <div id="mcq-questions-list"></div>
+                <div class="mcq-add-section">
+                    <h4 style="margin-bottom:16px;font-weight:700;display:flex;align-items:center;gap:8px">
+                        <i class="fa-solid fa-plus-circle" style="color:var(--primary)"></i> Add New Question
+                    </h4>
+                    <form id="mcq-form">
+                        <div class="form-group">
+                            <label>Question <span class="required">*</span></label>
+                            <input type="text" id="mcq-question" placeholder="Type your question here" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Option A <span class="required">*</span></label>
+                                <input type="text" id="mcq-opt-a" placeholder="Option A" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Option B <span class="required">*</span></label>
+                                <input type="text" id="mcq-opt-b" placeholder="Option B" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Option C <span class="required">*</span></label>
+                                <input type="text" id="mcq-opt-c" placeholder="Option C" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Option D <span class="required">*</span></label>
+                                <input type="text" id="mcq-opt-d" placeholder="Option D" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Correct Answer <span class="required">*</span></label>
+                            <select id="mcq-correct" required>
+                                <option value="">Select correct option</option>
+                                <option value="A">Option A</option>
+                                <option value="B">Option B</option>
+                                <option value="C">Option C</option>
+                                <option value="D">Option D</option>
+                            </select>
+                        </div>
+                        <div class="form-actions" style="margin-top:0">
+                            <button type="submit" class="btn-primary">
+                                <i class="fa-solid fa-plus"></i> Add Question
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-actions" style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border-light)">
+                    <button type="button" class="btn-secondary" id="close-mcq-done">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADD/EDIT USER MODAL ===== -->
+    <div class="modal-overlay" id="user-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="user-modal-title">Add User</h2>
+                <i class="fa-solid fa-xmark close-modal" id="close-user-modal"></i>
+            </div>
+            <div class="modal-body">
+                <form id="user-form">
+                    <div class="form-group">
+                        <label>Full Name <span class="required">*</span></label>
+                        <input type="text" id="user-name-input" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address <span class="required">*</span></label>
+                        <input type="email" id="user-email-input" placeholder="e.g. john@example.com" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Role <span class="required">*</span></label>
+                            <select id="user-role-input" required>
+                                <option value="">Select Role</option>
+                                <option value="Student">Student</option>
+                                <option value="Instructor">Instructor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="user-status-input">
+                                <option value="active">Active</option>
+                                <option value="suspended">Suspended</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancel-user">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-check"></i>
+                            <span id="user-submit-text">Add User</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== COUPON ADD/EDIT MODAL ===== -->
+    <div class="modal-overlay" id="coupon-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2 id="coupon-modal-title">Create Coupon</h2>
+                <i class="fa-solid fa-xmark close-modal" id="close-coupon-modal"></i>
+            </div>
+            <div class="modal-body">
+                <div class="coupon-preview">
+                    <div class="coupon-preview-label">Live Preview</div>
+                    <div class="coupon-preview-code" id="preview-coupon-code">COUPONCODE</div>
+                    <div class="coupon-preview-discount" id="preview-coupon-discount">0% discount</div>
+                </div>
+                <form id="coupon-form">
+                    <div class="form-group">
+                        <label>Discount Type <span class="required">*</span></label>
+                        <div class="discount-type-toggle">
+                            <button type="button" class="discount-type-btn active" id="type-percent-btn">
+                                <i class="fa-solid fa-percent"></i> Percentage
+                            </button>
+                            <button type="button" class="discount-type-btn" id="type-flat-btn">
+                                <i class="fa-solid fa-dollar-sign"></i> Flat Amount
+                            </button>
+                        </div>
+                    </div>
+                    <div class="coupon-modal-grid">
+                        <div class="form-group coupon-full-row">
+                            <label>Coupon Code <span class="required">*</span></label>
+                            <div class="code-input-wrapper">
+                                <input type="text" id="coupon-code-input" placeholder="e.g. SUMMER50"
+                                    maxlength="20" autocomplete="off">
+                                <button type="button" class="generate-btn" id="generate-code-btn">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate
+                                </button>
+                            </div>
+                            <small class="form-hint">
+                                <i class="fa-solid fa-circle-info"></i> Letters and numbers only, max 20 chars
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>Discount Value <span class="required">*</span></label>
+                            <div style="position:relative;display:flex;align-items:center">
+                                <input type="number" id="coupon-value-input" placeholder="e.g. 20"
+                                    min="1" step="0.01" style="padding-right:48px;width:100%">
+                                <span id="value-suffix"
+                                    style="position:absolute;right:14px;font-weight:800;color:var(--primary);font-size:1rem;pointer-events:none">%</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Order ($)</label>
+                            <input type="number" id="coupon-min-order" placeholder="0 = no minimum"
+                                min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Maximum Uses</label>
+                            <div class="max-uses-wrapper">
+                                <input type="number" id="coupon-max-uses" placeholder="e.g. 100" min="1">
+                                <label class="unlimited-toggle">
+                                    <input type="checkbox" id="coupon-unlimited">
+                                    <span>Unlimited uses</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Apply To Course</label>
+                            <select id="coupon-course-select">
+                                <option value="All Courses">All Courses</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Start Date <span class="required">*</span></label>
+                            <input type="date" id="coupon-start-date">
+                        </div>
+                        <div class="form-group">
+                            <label>Expiry Date <span class="required">*</span></label>
+                            <input type="date" id="coupon-expiry-date">
+                        </div>
+                        <div class="form-group coupon-full-row">
+                            <label>Description</label>
+                            <input type="text" id="coupon-description-input"
+                                placeholder="e.g. Summer sale discount for new users">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancel-coupon">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-check"></i>
+                            <span id="coupon-submit-text">Create Coupon</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== COUPON DELETE CONFIRM MODAL ===== -->
+    <div class="modal-overlay" id="coupon-delete-modal">
+        <div class="modal modal-sm">
+            <div class="modal-body" style="text-align:center;padding:32px">
+                <div class="delete-confirm-icon"><i class="fa-solid fa-trash"></i></div>
+                <h2 style="margin:16px 0 8px">Delete Coupon?</h2>
+                <p style="color:var(--text-muted);margin-bottom:6px">You are about to permanently delete</p>
+                <p id="delete-coupon-code"
+                    style="font-family:'Courier New',monospace;font-weight:800;font-size:1.1rem;color:var(--primary);margin-bottom:20px">
+                    COUPON
+                </p>
+                <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:24px">
+                    This action cannot be undone.
+                </p>
+                <div class="form-actions" style="justify-content:center">
+                    <button type="button" class="btn-secondary" id="coupon-delete-cancel">Cancel</button>
+                    <button type="button" class="btn-danger" id="coupon-delete-confirm">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LOGOUT MODAL ===== -->
+    <div class="modal-overlay" id="logout-modal">
+        <div class="modal modal-sm">
+            <div class="modal-body" style="text-align:center;padding:32px">
+                <div class="logout-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+                <h2 style="margin:16px 0 8px">Logout Confirmation</h2>
+                <p style="color:var(--text-muted);margin-bottom:24px">Are you sure you want to logout?</p>
+                <div class="form-actions" style="justify-content:center">
+                    <button type="button" class="btn-secondary" id="cancel-logout">Cancel</button>
+                    <button type="button" class="btn-danger" id="confirm-logout">Yes, Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-msg">Saved!</span>
+    </div>
 
     <script src="./admin.js"></script>
 </body>
