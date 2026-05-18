@@ -1,3 +1,66 @@
+//loader section
+document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('oppty-global-loader');
+    
+    // --- 1. FADE OUT ON PAGE LOAD ---
+    // Wait for the window to finish loading everything (images, css, etc.)
+    window.addEventListener('load', () => {
+        // Optional: Ensure the loader shows for at least 800ms so it looks smooth
+        setTimeout(() => {
+            if (loader) {
+                loader.classList.add('hide-loader');
+            }
+        }, 800); 
+    });
+
+    // Fallback just in case 'load' event fires before the script runs
+    if (document.readyState === 'complete') {
+        setTimeout(() => {
+            if (loader) loader.classList.add('hide-loader');
+        }, 800);
+    }
+
+    // --- 2. FADE IN ON PAGE EXIT (Link Clicks) ---
+    // Listen for clicks on all links
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            
+            const targetUrl = this.getAttribute('href');
+            const targetAttr = this.getAttribute('target');
+
+            // Don't trigger loader for:
+            // 1. Links opening in a new tab (_blank)
+            // 2. Anchor links on the same page (#something)
+            // 3. Javascript triggers or empty hrefs
+            // 4. Mailto/Tel links
+            if (
+                !targetUrl || 
+                targetUrl.startsWith('#') || 
+                targetUrl.startsWith('javascript') || 
+                targetUrl.startsWith('mailto:') || 
+                targetUrl.startsWith('tel:') || 
+                targetAttr === '_blank'
+            ) {
+                return; 
+            }
+
+            // If it's a valid internal page navigation, show the loader!
+            e.preventDefault(); // Stop immediate navigation
+            if (loader) {
+                loader.classList.remove('hide-loader'); // Fade the loader back in
+            }
+
+            // Wait for the fade-in animation to start, then navigate
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 400); // 400ms gives the CSS fade-in time to trigger
+        });
+    });
+});
+
+
+
+
 // Sidebar Elements
 const mobileToggle = document.getElementById('mobile-toggle');
 const sidebar = document.getElementById('sidebar');

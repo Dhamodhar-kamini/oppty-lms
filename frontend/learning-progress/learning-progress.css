@@ -1,3 +1,195 @@
+/* loader section */
+/* ===== LOADER VARIABLES ===== */
+:root {
+    --primary-blue: #3b82f6; 
+    --dark-blue: #0f172a;
+    --page-white: #ffffff;
+    --page-shadow: #e2e8f0;
+    --bg-light: #f8fafc;
+    --text-muted: #64748b;
+}
+
+/* =========================================
+   FULL SCREEN OVERLAY & TRANSITIONS
+========================================= */
+.global-loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999; /* Ensure it is on top of EVERYTHING */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+}
+
+/* Class added by JS to hide the loader */
+.global-loader-overlay.hide-loader {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.brand-logo-text .logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 12px;
+    margin-left: 28px;
+    margin-top: -8px;
+}
+
+/* =========================================
+   1. BACKGROUND GLOW
+========================================= */
+.book-glow {
+    position: absolute;
+    top: 0px;
+    width: 280px;
+    height: 180px;
+    background: radial-gradient(ellipse, rgba(59, 130, 246, 0.25) 0%, rgba(248, 250, 252, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: pulse-glow 2.5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-glow {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    100% { transform: scale(1.1); opacity: 1; }
+}
+
+/* =========================================
+   2. REALISTIC 3D BOOK SETTINGS
+========================================= */
+.book-perspective {
+    perspective: 1200px;
+    margin-bottom: 40px;
+    z-index: 2;
+}
+
+.realistic-book {
+    position: relative;
+    width: 200px;
+    height: 140px;
+    transform-style: preserve-3d;
+    transform: rotateX(50deg) rotateY(0deg) rotateZ(0deg);
+    animation: floatBook 4s ease-in-out infinite;
+}
+
+@keyframes floatBook {
+    0%, 100% { transform: rotateX(50deg) translateY(0px); }
+    50% { transform: rotateX(50deg) translateY(-15px); }
+}
+
+.book-cover {
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 140px;
+    background-color: var(--dark-blue);
+    border-radius: 2px 8px 8px 2px;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.left-cover {
+    right: 50%;
+    transform-origin: right center;
+    transform: rotateY(-20deg);
+    border-radius: 8px 2px 2px 8px;
+}
+
+.right-cover {
+    left: 50%;
+    transform-origin: left center;
+    transform: rotateY(20deg);
+}
+
+.book-page {
+    position: absolute;
+    top: 4px;
+    width: 96px;
+    height: 132px;
+    background-color: var(--page-white);
+    border-radius: 0 4px 4px 0;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.static-left-1 { right: 50%; transform-origin: right center; transform: rotateY(-18deg) translateZ(1px); border-radius: 4px 0 0 4px; }
+.static-left-2 { right: 50%; transform-origin: right center; transform: rotateY(-16deg) translateZ(2px); border-radius: 4px 0 0 4px; }
+.static-right-1 { left: 50%; transform-origin: left center; transform: rotateY(18deg) translateZ(1px); }
+.static-right-2 { left: 50%; transform-origin: left center; transform: rotateY(16deg) translateZ(2px); }
+
+.book-spine {
+    position: absolute;
+    left: calc(50% - 4px);
+    top: 0;
+    width: 8px;
+    height: 140px;
+    background-color: #1e293b;
+    transform: translateZ(-2px);
+    border-radius: 4px;
+}
+
+/* =========================================
+   3. 3D PAGE FLIPPING ANIMATION
+========================================= */
+.flip-page {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    width: 96px;
+    height: 132px;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    z-index: var(--z-index);
+    animation: flip 2.4s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+    animation-delay: var(--flip-delay);
+}
+
+.page-front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #f1f5f9 0%, var(--page-white) 10%);
+    border-radius: 0 4px 4px 0;
+    backface-visibility: hidden;
+    border: 1px solid var(--page-shadow);
+    border-left: none;
+}
+
+.page-back {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to left, var(--primary-blue) 0%, #60a5fa 100%);
+    border-radius: 4px 0 0 4px;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    box-shadow: inset 0 0 15px rgba(255,255,255,0.2);
+}
+
+@keyframes flip {
+    0% { transform: rotateY(15deg) translateZ(3px); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: rotateY(-90deg) translateZ(15px); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+    90% { opacity: 1; }
+    100% { transform: rotateY(-195deg) translateZ(3px); opacity: 0; }
+}
+
+
+
+
+
 /* ===== CSS VARIABLES - BLUE/WHITE THEME ===== */
 :root {
     --primary-blue: #2563eb;
@@ -25,6 +217,8 @@ a { text-decoration: none; color: inherit; }
 .sidebar-top-section { display: flex; flex-direction: column; gap: 40px; }
 .sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 0 8px; }
 .sidebar-logo { height: 40px; object-fit: contain; }
+
+/* Hidden by default on desktop */
 .close-sidebar { display: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; }
 
 .nav-menu { display: flex; flex-direction: column; gap: 6px; }
@@ -96,7 +290,7 @@ a { text-decoration: none; color: inherit; }
 .circular-progress svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .circular-progress circle { fill: none; stroke-width: 8; stroke-linecap: round; }
 .circular-progress .bg { stroke: var(--bg-light); }
-.circular-progress .meter { stroke: var(--primary-blue); stroke-dasharray: 283; /* 2 * pi * r (45) */ stroke-dashoffset: 283; transition: stroke-dashoffset 1.5s ease-in-out; }
+.circular-progress .meter { stroke: var(--primary-blue); stroke-dasharray: 283; stroke-dashoffset: 283; transition: stroke-dashoffset 1.5s ease-in-out; }
 .percent-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2.5rem; font-weight: 800; color: var(--dark-blue); }
 .chart-desc { text-align: center; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
 
@@ -104,16 +298,23 @@ a { text-decoration: none; color: inherit; }
 .fade-in-up { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-/* RESPONSIVE */
+/* =========================================
+   RESPONSIVE MEDIA QUERIES
+========================================= */
 @media (max-width: 1200px) {
     .progress-layout { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 992px) {
+    /* Fixed Sidebar for Mobile */
     .sidebar { display: none; position: fixed; transform: translateX(-100%); transition: 0.3s; z-index: 1000; box-shadow: 0 0 50px rgba(0,0,0,0.1); }
     .sidebar.show { display: flex; transform: translateX(0); }
+    
     .content-area { width: 100%; padding: 24px; }
+    
+    /* Reveal Mobile Toggles */
     .mobile-toggle { display: block; }
+    .close-sidebar { display: block; } /* FIX APPLIED HERE */
     
     .progress-list-item { flex-direction: column; align-items: flex-start; gap: 12px; }
     .item-thumb { width: 100%; height: 160px; }
