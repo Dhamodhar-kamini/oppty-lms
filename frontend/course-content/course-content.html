@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Player - Oppty TechHub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="course.content.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./course.content.css">
 </head>
 <body>
 
@@ -41,7 +41,7 @@
                     <i class="fa-solid fa-desktop"></i>
                     <span>My course</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="../learning-progress/learning-progress.html" class="nav-item">
                     <i class="fa-solid fa-chart-line"></i>
                     <span>Learning progress</span>
                 </a>
@@ -59,7 +59,7 @@
                     <div class="mobile-toggle" id="mobile-toggle">
                         <i class="fa-solid fa-bars-staggered"></i>
                     </div>
-                    <a href="../courses/courses.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to My Courses</a>
+                    <a href="../my-course/my-course.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to My Courses</a>
                 </div>
                 <div class="user-area">
                     <span class="user-name">DHAMODHAR</span>
@@ -68,7 +68,6 @@
             </header>
 
             <div class="split-view">
-                
                 <main class="content-display-area">
                     <div class="video-container">
                         <div class="video-placeholder">
@@ -79,17 +78,29 @@
 
                     <div class="lesson-info-bar">
                         <h1 class="current-lesson-title" id="current-lesson-title">Loading...</h1>
-                        <button class="btn-complete"><i class="fa-solid fa-check"></i> Mark as complete</button>
+                        <button class="btn-complete" id="btn-mark-complete" onclick="markCurrentLessonComplete()">
+                            <i class="fa-solid fa-check"></i> <span>Mark as complete</span>
+                        </button>
                     </div>
 
                     <div class="lesson-tabs">
-                        <button class="active-tab">Description</button>
-                        <button>Resources</button>
+                        <button class="tab-btn active-tab" onclick="switchTab('desc', this)">Description</button>
+                        <button class="tab-btn" onclick="switchTab('res', this)">Resources</button>
                     </div>
 
-                    <section class="lesson-body">
-                        <p id="current-lesson-desc">Please select a lesson from the course content sidebar to view its details.</p>
+                    <section class="lesson-body tab-content" id="tab-desc">
+                        <p id="current-lesson-desc">Please select a lesson...</p>
                     </section>
+                    
+                    <section class="lesson-body tab-content hidden" id="tab-res">
+                        <p style="font-weight: 600; margin-bottom: 12px; color: var(--dark-blue);">Downloadable Files:</p>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+                            <li style="cursor: pointer; color: var(--primary-blue);"><i class="fa-solid fa-file-pdf"></i> Lesson_Slides_Deck.pdf</li>
+                            <li style="cursor: pointer; color: var(--primary-blue);"><i class="fa-solid fa-code"></i> Source_Code_Snippet.zip</li>
+                            <li style="cursor: pointer; color: var(--primary-blue);"><i class="fa-solid fa-link"></i> External Reference Guide</li>
+                        </ul>
+                    </section>
+
                 </main>
 
                 <aside class="syllabus-sidebar">
@@ -97,16 +108,13 @@
                         <h2 id="course-main-name">Course Content</h2>
                         <p class="chapters-count">Total: <span id="total-chapters-count">0</span> Chapters</p>
                     </div>
-                    
-                    <div class="chapters-accordion" id="chapters-accordion-container">
-                    </div>
+                    <div class="chapters-accordion" id="chapters-accordion-container"></div>
                 </aside>
-
             </div>
         </div>
 
     </div>
 
-    <script src="course-content.js"></script>
+    <script src="./course-content.js"></script>
 </body>
 </html>

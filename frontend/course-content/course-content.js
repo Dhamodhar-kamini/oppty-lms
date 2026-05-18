@@ -1,4 +1,4 @@
-// Database matching IDs passed from my-course.js
+// Database matching IDs passed from my-course.js (Now includes unique Lesson IDs!)
 const courseContentDatabase = {
     'course-content-panda': {
         courseTitle: "Cinematic Web Animations & Interactions",
@@ -6,16 +6,16 @@ const courseContentDatabase = {
             {
                 title: "Chapter 1: Welcome to the Course",
                 lessons: [
-                    { title: "Welcome to the course", type: "video", desc: "Start your journey into high-end UI design with this comprehensive introduction. We will cover the tools needed and set expectations for the final project." },
-                    { title: "What is UI design?", type: "doc", desc: "Read this document to understand the foundational principles of User Interface design and how it differs from User Experience." },
-                    { title: "What is color theory?", type: "video", desc: "Learn how to mix and match colors logically. We will explore the color wheel, complementary colors, and psychological impacts." }
+                    { id: "p1", title: "Welcome to the course", type: "video", desc: "Start your journey into high-end UI design with this comprehensive introduction. We will cover the tools needed and set expectations for the final project." },
+                    { id: "p2", title: "What is UI design?", type: "doc", desc: "Read this document to understand the foundational principles of User Interface design and how it differs from User Experience." },
+                    { id: "p3", title: "What is color theory?", type: "video", desc: "Learn how to mix and match colors logically. We will explore the color wheel, complementary colors, and psychological impacts." }
                 ]
             },
             {
                 title: "Chapter 2: Core Layout Principles",
                 lessons: [
-                    { title: "Grid systems explained", type: "video", desc: "Understand how 12-column grids establish rhythm and structure in your web applications." },
-                    { title: "Spacing and Typography", type: "doc", desc: "A guide on macro and micro whitespace, and choosing the perfect font pairings." }
+                    { id: "p4", title: "Grid systems explained", type: "video", desc: "Understand how 12-column grids establish rhythm and structure in your web applications." },
+                    { id: "p5", title: "Spacing and Typography", type: "doc", desc: "A guide on macro and micro whitespace, and choosing the perfect font pairings." }
                 ]
             }
         ]
@@ -26,13 +26,17 @@ const courseContentDatabase = {
             {
                 title: "Chapter 1: Server Basics",
                 lessons: [
-                    { title: "Architecture Overview", type: "video", desc: "How web servers actually work under the hood." },
-                    { title: "Database schemas", type: "doc", desc: "Documentation on setting up PostgreSQL with Django ORM." }
+                    { id: "d1", title: "Architecture Overview", type: "video", desc: "How web servers actually work under the hood." },
+                    { id: "d2", title: "Database schemas", type: "doc", desc: "Documentation on setting up PostgreSQL with Django ORM." }
                 ]
             }
         ]
     }
 };
+
+// Global State Variables
+let currentGlobalCourseId = '';
+let currentGlobalLessonId = '';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -58,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dynamic Course Logic based on URL ID
     const urlParams = new URLSearchParams(window.location.search);
-    const courseId = urlParams.get('id') || 'course-content-panda'; // fallback
-    const courseData = courseContentDatabase[courseId] || courseContentDatabase['course-content-panda'];
+    currentGlobalCourseId = urlParams.get('id') || 'course-content-panda'; // fallback
+    const courseData = courseContentDatabase[currentGlobalCourseId] || courseContentDatabase['course-content-panda'];
 
     document.getElementById('course-main-name').textContent = courseData.courseTitle;
     document.getElementById('total-chapters-count').textContent = courseData.chapters.length;
@@ -85,8 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const safeTitle = lesson.title.replace(/'/g, "\\'");
             const safeDesc = lesson.desc.replace(/'/g, "\\'");
 
+            // We pass the unique lesson.id to playLesson
             html += `
-                <div class="lesson-item" onclick="playLesson(this, '${safeTitle}', '${safeDesc}', '${lesson.type}')">
+                <div class="lesson-item" onclick="playLesson(this, '${lesson.id}', '${safeTitle}', '${safeDesc}', '${lesson.type}')">
                     <i class="fa-solid ${iconClass}"></i>
                     <span>${lesson.title}</span>
                 </div>
@@ -101,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstLessonElement = document.querySelector('.lesson-item');
     if (firstLessonElement) {
         const firstLessonData = courseData.chapters[0].lessons[0];
-        playLesson(firstLessonElement, firstLessonData.title, firstLessonData.desc, firstLessonData.type);
+        playLesson(firstLessonElement, firstLessonData.id, firstLessonData.title, firstLessonData.desc, firstLessonData.type);
     }
 });
 
@@ -114,10 +119,13 @@ window.toggleAccordion = function(chapterId) {
     headerElement.classList.toggle('active');
 };
 
-window.playLesson = function(element, title, desc, type) {
+window.playLesson = function(element, lessonId, title, desc, type) {
+    // Save current global state
+    currentGlobalLessonId = lessonId;
+
+    // Update UI Content
     const videoIcon = document.getElementById('video-center-icon');
     const videoTitle = document.getElementById('video-placeholder-title');
-    
     document.getElementById('current-lesson-title').textContent = title;
     
     if (type === 'video') {
@@ -128,8 +136,68 @@ window.playLesson = function(element, title, desc, type) {
         videoTitle.textContent = `Document Viewer: ${title}`;
     }
 
+    // Reset Tabs to Description View
     document.getElementById('current-lesson-desc').innerHTML = `<strong>Overview:</strong><br><br>${desc}`;
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+    document.querySelector('.tab-btn').classList.add('active-tab'); // Sets first tab active
+    document.getElementById('tab-desc').classList.remove('hidden');
+    document.getElementById('tab-res').classList.add('hidden');
 
+    // Highlight Sidebar
     document.querySelectorAll('.lesson-item').forEach(item => item.classList.remove('active-lesson'));
     element.classList.add('active-lesson');
+
+    // Check LocalStorage to see if THIS lesson is already completed
+    checkIfCompleted();
 };
+
+// Toggle Tabs Function
+window.switchTab = function(tabId, btnElement) {
+    // Update Button Styling
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+    btnElement.classList.add('active-tab');
+
+    // Update Content Visibility
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+    document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+};
+
+// Mark as Complete Functionality saving to LocalStorage
+window.markCurrentLessonComplete = function() {
+    let progressDB = JSON.parse(localStorage.getItem('opptyProgress')) || {};
+    
+    // Ensure array exists for this course
+    if (!progressDB[currentGlobalCourseId]) {
+        progressDB[currentGlobalCourseId] = [];
+    }
+
+    // Add lesson ID if not already there
+    if (!progressDB[currentGlobalCourseId].includes(currentGlobalLessonId)) {
+        progressDB[currentGlobalCourseId].push(currentGlobalLessonId);
+        localStorage.setItem('opptyProgress', JSON.stringify(progressDB));
+    }
+
+    // Update Button UI to "Completed"
+    updateCompleteButtonUI(true);
+};
+
+// Check if lesson is completed upon loading
+function checkIfCompleted() {
+    let progressDB = JSON.parse(localStorage.getItem('opptyProgress')) || {};
+    const courseProgress = progressDB[currentGlobalCourseId] || [];
+    const isCompleted = courseProgress.includes(currentGlobalLessonId);
+    
+    updateCompleteButtonUI(isCompleted);
+}
+
+// Function to handle the actual Button UI state
+function updateCompleteButtonUI(isCompleted) {
+    const btn = document.getElementById('btn-mark-complete');
+    if(isCompleted) {
+        btn.innerHTML = `<i class="fa-solid fa-check-double"></i> <span>Completed</span>`;
+        btn.classList.add('completed-state');
+    } else {
+        btn.innerHTML = `<i class="fa-solid fa-check"></i> <span>Mark as complete</span>`;
+        btn.classList.remove('completed-state');
+    }
+}
