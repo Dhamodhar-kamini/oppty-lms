@@ -1,17 +1,13 @@
-/* ===== CREDENTIALS ===== */
-const CREDENTIALS = {
-    admin: {
-        email: 'admin@oppty.com',
-        password: 'admin123',
-        redirect: '../admin/admin.html',
-        name: 'Admin'
-    },
-    student: {
-        email: 'student@oppty.com',
-        password: 'student123',
-        redirect: '../courses/courses.html',
-        name: 'Student'
-    }
+/* ===== API CONFIGURATION ===== */
+const API_URLS = {
+    signup: 'http://192.168.1.17:8000/api/signup/',
+    signin: 'http://192.168.1.17:8000/api/signin/'
+};
+
+/* ===== REDIRECT DESTINATIONS ===== */
+const ROLE_REDIRECTS = {
+    admin: '../admin/admin.html',
+    student: '../courses/courses.html'
 };
 
 /* ===== DOM REFS — LOGIN ===== */
@@ -28,7 +24,6 @@ const alertBox     = document.getElementById('alert-box');
 const alertMsg     = document.getElementById('alert-msg');
 const emailError   = document.getElementById('email-error');
 const passError    = document.getElementById('password-error');
-const rememberMe   = document.getElementById('remember-me');
 const toast        = document.getElementById('toast');
 const toastMsg     = document.getElementById('toast-msg');
 
@@ -60,9 +55,7 @@ const signupPassError  = document.getElementById('signup-password-error');
 /* ===== UTILS ===== */
 function showToast(msg, isError = false) {
     toastMsg.textContent = msg;
-    const icon = toast.querySelector('i');
-    icon.style.color = isError ? 'var(--accent-red)' : 'var(--accent-green)';
-    icon.className = isError ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-circle-check';
+    toast.style.background = isError ? 'var(--accent-red)' : 'var(--text-main)';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3500);
 }
@@ -70,14 +63,16 @@ function showToast(msg, isError = false) {
 function setLoading(state, btn, txt, ldr, ico) {
     if (state) {
         txt.style.display = 'none';
-        ico.style.display = 'none';
+        if (ico) ico.style.display = 'none';
         ldr.classList.add('show');
         btn.classList.add('loading');
+        btn.disabled = true;
     } else {
         txt.style.display = '';
-        ico.style.display = '';
+        if (ico) ico.style.display = '';
         ldr.classList.remove('show');
         btn.classList.remove('loading');
+        btn.disabled = false;
     }
 }
 
@@ -88,11 +83,15 @@ function showAlertBox(box, msgEl, msg) {
     void box.offsetWidth;
     box.style.animation = '';
 }
-function hideAlertBox(box) { box.classList.remove('show'); }
+
+function hideAlertBox(box) { 
+    if(box) box.classList.remove('show'); 
+}
 
 function validateEmail(val) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
 }
+
 function validatePhone(val) {
     return /^[0-9]{10,15}$/.test(val.replace(/\D/g, ''));
 }
@@ -109,28 +108,24 @@ function setFieldState(input, errorEl, isValid) {
     }
 }
 
-/* ===== TOGGLE PASSWORD (LOGIN) ===== */
+/* ===== PASSWORD VISIBILITY TOGGLES ===== */
 togglePass.addEventListener('click', () => {
     const isPass = passInput.type === 'password';
     passInput.type = isPass ? 'text' : 'password';
-    eyeIcon.className = isPass ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    eyeIcon.textContent = isPass ? '🙈' : '👁';
 });
 
-/* ===== TOGGLE PASSWORD (SIGNUP) ===== */
 signupTogglePass.addEventListener('click', () => {
     const isPass = signupPassword.type === 'password';
     signupPassword.type = isPass ? 'text' : 'password';
-    signupEyeIcon.className = isPass ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    signupEyeIcon.textContent = isPass ? '🙈' : '👁';
 });
 
-/* ===== REAL-TIME VALIDATION — LOGIN ===== */
+/* ===== REAL-TIME VALIDATION ===== */
 emailInput.addEventListener('input', () => {
     hideAlertBox(alertBox);
     if (emailInput.value.trim()) {
         setFieldState(emailInput, emailError, validateEmail(emailInput.value));
-    } else {
-        emailInput.classList.remove('error', 'success');
-        emailError.classList.remove('show');
     }
 });
 
@@ -138,167 +133,95 @@ passInput.addEventListener('input', () => {
     hideAlertBox(alertBox);
     if (passInput.value.length > 0) {
         setFieldState(passInput, passError, passInput.value.length >= 6);
-    } else {
-        passInput.classList.remove('error', 'success');
-        passError.classList.remove('show');
     }
 });
 
-/* ===== REAL-TIME VALIDATION — SIGNUP ===== */
 signupName.addEventListener('input', () => {
     hideAlertBox(signupAlert);
-    if (signupName.value.trim()) {
-        setFieldState(signupName, signupNameError, signupName.value.trim().length >= 3);
-    } else {
-        signupName.classList.remove('error', 'success');
-        signupNameError.classList.remove('show');
-    }
+    setFieldState(signupName, signupNameError, signupName.value.trim().length >= 3);
 });
 
 signupEmail.addEventListener('input', () => {
     hideAlertBox(signupAlert);
-    if (signupEmail.value.trim()) {
-        setFieldState(signupEmail, signupEmailError, validateEmail(signupEmail.value));
-    } else {
-        signupEmail.classList.remove('error', 'success');
-        signupEmailError.classList.remove('show');
-    }
+    setFieldState(signupEmail, signupEmailError, validateEmail(signupEmail.value));
 });
 
 signupPhone.addEventListener('input', () => {
     hideAlertBox(signupAlert);
-    // strip non-digits live
     signupPhone.value = signupPhone.value.replace(/[^\d]/g, '');
-    if (signupPhone.value) {
-        setFieldState(signupPhone, signupPhoneError, validatePhone(signupPhone.value));
-    } else {
-        signupPhone.classList.remove('error', 'success');
-        signupPhoneError.classList.remove('show');
-    }
+    setFieldState(signupPhone, signupPhoneError, validatePhone(signupPhone.value));
 });
 
 signupPassword.addEventListener('input', () => {
     hideAlertBox(signupAlert);
-    if (signupPassword.value.length > 0) {
-        setFieldState(signupPassword, signupPassError, signupPassword.value.length >= 6);
-    } else {
-        signupPassword.classList.remove('error', 'success');
-        signupPassError.classList.remove('show');
-    }
+    setFieldState(signupPassword, signupPassError, signupPassword.value.length >= 6);
 });
 
-/* ===== REMEMBER ME ===== */
-window.addEventListener('DOMContentLoaded', () => {
-    const savedEmail = localStorage.getItem('lms_remembered_email');
-    if (savedEmail) {
-        emailInput.value = savedEmail;
-        rememberMe.checked = true;
-        emailInput.classList.add('success');
-    }
-});
-
-/* ===== LOGIN FORM SUBMIT ===== */
-form.addEventListener('submit', (e) => {
+/* ===== SIGN-IN LOGIC (POST to API) ===== */
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
     hideAlertBox(alertBox);
 
     const email = emailInput.value.trim();
     const password = passInput.value;
 
-    let valid = true;
-    if (!validateEmail(email)) {
-        setFieldState(emailInput, emailError, false);
-        valid = false;
-    } else {
-        setFieldState(emailInput, emailError, true);
-    }
-    if (password.length < 6) {
-        setFieldState(passInput, passError, false);
-        valid = false;
-    } else {
-        setFieldState(passInput, passError, true);
-    }
-    if (!valid) return;
-
-    let matched = null;
-    for (const key in CREDENTIALS) {
-        const cred = CREDENTIALS[key];
-        if (email.toLowerCase() === cred.email.toLowerCase() && password === cred.password) {
-            matched = { ...cred, role: key };
-            break;
-        }
+    // Client-side validation
+    if (!validateEmail(email) || password.length < 6) {
+        showAlertBox(alertBox, alertMsg, 'Please enter a valid email and password.');
+        return;
     }
 
     setLoading(true, btnLogin, btnText, btnLoader, btnIcon);
 
-    setTimeout(() => {
-        setLoading(false, btnLogin, btnText, btnLoader, btnIcon);
+    try {
+        const response = await fetch(API_URLS.signin, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
 
-        if (!matched) {
-            showAlertBox(alertBox, alertMsg, 'Invalid email or password. Please try again.');
-            passInput.classList.add('error');
-            passInput.value = '';
-            return;
+        const data = await response.json();
+        console.log("Signin response:", data);
+
+        if (!response.ok) {
+            throw new Error(data.message || data.error || data.detail || 'Login failed.');
         }
 
-        if (rememberMe.checked) {
-            localStorage.setItem('lms_remembered_email', email);
-        } else {
-            localStorage.removeItem('lms_remembered_email');
+        // Handle nested or flat data structures safely
+        const userData = data.user || data; 
+        const token = data.token || data.access || data.key;
+
+        if (!userData.email) {
+            throw new Error("Server error: User details missing in response.");
         }
 
+        // Save session
         sessionStorage.setItem('lms_user', JSON.stringify({
-            email: matched.email,
-            name: matched.name,
-            role: matched.role,
+            email: userData.email,
+            name: userData.name || userData.username || 'User',
+            role: (userData.role || 'student').toLowerCase(),
             loginTime: new Date().toISOString()
         }));
+        if(token) sessionStorage.setItem('lms_token', token);
 
-        showToast(`Welcome back, ${matched.name}! Redirecting...`);
+        showToast(`Welcome back, ${userData.name || 'User'}!`);
 
         setTimeout(() => {
-            window.location.href = matched.redirect;
+            const role = (userData.role || 'student').toLowerCase();
+            window.location.href = ROLE_REDIRECTS[role] || ROLE_REDIRECTS['student'];
         }, 1500);
 
-    }, 1500);
+    } catch (error) {
+        console.error("Signin Error:", error);
+        showAlertBox(alertBox, alertMsg, error.message);
+        passInput.classList.add('error');
+    } finally {
+        setLoading(false, btnLogin, btnText, btnLoader, btnIcon);
+    }
 });
 
-/* ===== SIGNUP MODAL — OPEN / CLOSE ===== */
-function openSignupModal() {
-    signupModal.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => signupName.focus(), 300);
-}
-function closeSignupModal() {
-    signupModal.classList.remove('show');
-    document.body.style.overflow = '';
-    signupForm.reset();
-    hideAlertBox(signupAlert);
-    [signupName, signupEmail, signupPhone, signupPassword].forEach(el => {
-        el.classList.remove('error', 'success');
-    });
-    [signupNameError, signupEmailError, signupPhoneError, signupPassError].forEach(el => {
-        el.classList.remove('show');
-    });
-}
-
-openSignupBtn.addEventListener('click', (e) => { e.preventDefault(); openSignupModal(); });
-closeSignupBtn.addEventListener('click', closeSignupModal);
-cancelSignupBtn.addEventListener('click', closeSignupModal);
-backToLoginBtn.addEventListener('click', (e) => { e.preventDefault(); closeSignupModal(); });
-
-// Close on overlay click
-signupModal.addEventListener('click', (e) => {
-    if (e.target === signupModal) closeSignupModal();
-});
-
-// Close on Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && signupModal.classList.contains('show')) closeSignupModal();
-});
-
-/* ===== SIGNUP FORM SUBMIT ===== */
-signupForm.addEventListener('submit', (e) => {
+/* ===== SIGN-UP LOGIC (POST to API) ===== */
+signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     hideAlertBox(signupAlert);
 
@@ -307,65 +230,75 @@ signupForm.addEventListener('submit', (e) => {
     const phone = signupPhone.value.trim();
     const password = signupPassword.value;
 
-    let valid = true;
-
-    if (name.length < 3) {
-        setFieldState(signupName, signupNameError, false); valid = false;
-    } else setFieldState(signupName, signupNameError, true);
-
-    if (!validateEmail(email)) {
-        setFieldState(signupEmail, signupEmailError, false); valid = false;
-    } else setFieldState(signupEmail, signupEmailError, true);
-
-    if (!validatePhone(phone)) {
-        setFieldState(signupPhone, signupPhoneError, false); valid = false;
-    } else setFieldState(signupPhone, signupPhoneError, true);
-
-    if (password.length < 6) {
-        setFieldState(signupPassword, signupPassError, false); valid = false;
-    } else setFieldState(signupPassword, signupPassError, true);
-
-    if (!valid) {
-        showAlertBox(signupAlert, signupAlertMsg, 'Please fix the highlighted errors.');
-        return;
-    }
-
-    // Check if email already used (demo: hardcoded list + localStorage)
-    const existingUsers = JSON.parse(localStorage.getItem('lms_signups') || '[]');
-    const emailExists = existingUsers.some(u => u.email.toLowerCase() === email.toLowerCase())
-        || Object.values(CREDENTIALS).some(c => c.email.toLowerCase() === email.toLowerCase());
-
-    if (emailExists) {
-        showAlertBox(signupAlert, signupAlertMsg, 'This email is already registered.');
-        setFieldState(signupEmail, signupEmailError, false);
+    if (name.length < 3 || !validateEmail(email) || !validatePhone(phone) || password.length < 6) {
+        showAlertBox(signupAlert, signupAlertMsg, 'Please fix the errors in the form.');
         return;
     }
 
     setLoading(true, signupBtn, signupBtnText, signupBtnLoader, signupBtnIcon);
 
-    setTimeout(() => {
-        setLoading(false, signupBtn, signupBtnText, signupBtnLoader, signupBtnIcon);
-
-        // Save to localStorage (demo)
-        existingUsers.push({
-            name, email, phone, password,
-            createdAt: new Date().toISOString()
+    try {
+        const response = await fetch(API_URLS.signup, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, phone, password })
         });
-        localStorage.setItem('lms_signups', JSON.stringify(existingUsers));
 
-        showToast(`Welcome, ${name}! Account created successfully.`);
+        const data = await response.json();
+        console.log("Signup response:", data);
+
+        if (!response.ok) {
+            throw new Error(data.message || data.error || data.detail || 'Registration failed.');
+        }
+
+        showToast(`Account created for ${name}! Please login.`);
         closeSignupModal();
 
-        // Auto-fill login
+        // Switch to login UI
         emailInput.value = email;
         emailInput.classList.add('success');
         passInput.focus();
 
-    }, 1500);
+    } catch (error) {
+        console.error("Signup Error:", error);
+        showAlertBox(signupAlert, signupAlertMsg, error.message);
+    } finally {
+        setLoading(false, signupBtn, signupBtnText, signupBtnLoader, signupBtnIcon);
+    }
+});
+
+/* ===== MODAL CONTROLS ===== */
+function openSignupModal() {
+    signupModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => signupName.focus(), 300);
+}
+
+function closeSignupModal() {
+    signupModal.classList.remove('show');
+    document.body.style.overflow = '';
+    signupForm.reset();
+    hideAlertBox(signupAlert);
+    [signupName, signupEmail, signupPhone, signupPassword].forEach(el => {
+        el.classList.remove('error', 'success');
+    });
+}
+
+openSignupBtn.addEventListener('click', (e) => { e.preventDefault(); openSignupModal(); });
+closeSignupBtn.addEventListener('click', closeSignupModal);
+cancelSignupBtn.addEventListener('click', closeSignupModal);
+backToLoginBtn.addEventListener('click', (e) => { e.preventDefault(); closeSignupModal(); });
+
+signupModal.addEventListener('click', (e) => {
+    if (e.target === signupModal) closeSignupModal();
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && signupModal.classList.contains('show')) closeSignupModal();
 });
 
 /* ===== FORGOT PASSWORD ===== */
 document.querySelector('.forgot-link').addEventListener('click', (e) => {
     e.preventDefault();
-    showToast('Password reset link sent to your email!', false);
+    showToast('Reset instructions sent to your email!');
 });

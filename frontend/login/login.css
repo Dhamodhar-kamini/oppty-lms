@@ -41,6 +41,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 a { text-decoration: none; color: inherit; }
+button { font-family: var(--font-family); }
 
 /* ===== WRAPPER 50/50 ===== */
 .login-wrapper {
@@ -187,7 +188,7 @@ a { text-decoration: none; color: inherit; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
     z-index: 3;
 }
@@ -319,16 +320,12 @@ a { text-decoration: none; color: inherit; }
     gap: 2px;
 }
 .stars {
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     font-weight: 800;
     color: var(--text-main);
     display: flex;
     align-items: center;
     gap: 4px;
-}
-.stars i {
-    color: var(--accent-yellow);
-    font-size: 0.78rem;
 }
 .reviews-label {
     font-size: 0.7rem;
@@ -366,7 +363,7 @@ a { text-decoration: none; color: inherit; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: 1.4rem;
     flex-shrink: 0;
 }
 .stat-text h4 {
@@ -444,20 +441,17 @@ a { text-decoration: none; color: inherit; }
 /* Form */
 .form-group { margin-bottom: 20px; }
 .form-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
+    display: block;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--text-main);
     margin-bottom: 8px;
 }
-.form-group label i { color: var(--primary); font-size: 0.78rem; }
 
 .input-wrapper { position: relative; display: flex; align-items: center; }
 .input-wrapper input {
     width: 100%;
-    padding: 14px 46px 14px 16px;
+    padding: 14px 16px;
     border: 1.5px solid var(--border-light);
     border-radius: var(--radius-sm);
     font-family: var(--font-family);
@@ -482,86 +476,53 @@ a { text-decoration: none; color: inherit; }
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
 }
 
-.input-icon {
-    position: absolute;
-    right: 14px;
-    color: var(--text-muted);
-    font-size: 0.88rem;
-    pointer-events: none;
+/* Password field: leave space for eye button */
+.input-wrapper input[type="password"],
+.input-wrapper input#login-password,
+.input-wrapper input#signup-password {
+    padding-right: 46px;
 }
-.input-wrapper input:focus ~ .input-icon { color: var(--primary); }
 
 .toggle-password {
     position: absolute;
-    right: 12px;
+    right: 10px;
     background: none;
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 4px 6px;
+    padding: 6px 8px;
     border-radius: 6px;
     transition: var(--transition-fast);
-    font-size: 0.88rem;
+    font-size: 1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .toggle-password:hover {
-    color: var(--primary);
     background: var(--bg-surface-hover);
 }
 
 .field-error {
     display: none;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     font-weight: 600;
     color: var(--accent-red);
     margin-top: 6px;
 }
-.field-error.show { display: flex; }
+.field-error.show { display: block; }
 
 .form-extras {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 24px;
 }
-.remember-me {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    user-select: none;
-}
-.remember-me input[type="checkbox"] { display: none; }
-.checkmark {
-    width: 18px; height: 18px;
-    border: 1.5px solid var(--border-light);
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition-fast);
-    background: var(--bg-surface);
-}
-.remember-me input:checked ~ .checkmark {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-.remember-me input:checked ~ .checkmark::after {
-    content: '✓';
-    color: white;
-    font-size: 0.7rem;
-    font-weight: 800;
-}
-.remember-me span:last-child {
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: var(--text-muted);
-}
 .forgot-link {
-    font-size: 0.84rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--primary);
+    transition: var(--transition-fast);
 }
 .forgot-link:hover { color: var(--primary-dark); text-decoration: underline; }
 
@@ -581,7 +542,7 @@ a { text-decoration: none; color: inherit; }
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     position: relative;
     overflow: hidden;
 }
@@ -599,7 +560,12 @@ a { text-decoration: none; color: inherit; }
     box-shadow: 0 12px 28px var(--primary-glow);
 }
 .btn-login > * { position: relative; z-index: 1; }
-.btn-login #btn-icon { font-size: 0.88rem; transition: transform var(--transition-fast); }
+.btn-login #btn-icon,
+.btn-login #signup-btn-icon {
+    font-size: 1.1rem;
+    transition: transform var(--transition-fast);
+    line-height: 1;
+}
 .btn-login:hover #btn-icon { transform: translateX(4px); }
 
 .btn-loader { display: none; align-items: center; gap: 5px; }
@@ -636,18 +602,9 @@ a { text-decoration: none; color: inherit; }
     border: 1px solid rgba(37, 99, 235, 0.15);
     border-radius: var(--radius-sm);
     padding: 12px 14px;
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     line-height: 1.6;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-}
-.login-hint i {
-    color: var(--primary);
-    flex-shrink: 0;
-    margin-top: 2px;
-    font-size: 0.85rem;
 }
 .login-hint strong { color: var(--primary-dark); }
 
@@ -671,47 +628,10 @@ a { text-decoration: none; color: inherit; }
     max-width: 320px;
 }
 .toast.show { transform: translateX(0); }
-.toast i { color: var(--accent-green); flex-shrink: 0; }
 
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 1200px) {
-    .login-left { padding: 48px 40px; }
-    .login-right { padding: 48px 40px; }
-    .hero-headline,
-    .hero-headline-2 { font-size: 2.2rem; }
-    .hero-content { gap: 44px; }
-}
-@media (max-width: 992px) {
-    .login-wrapper { grid-template-columns: 1fr; }
-    .login-left { display: none; }
-    .login-right { padding: 48px 24px; min-height: 100vh; }
-}
-@media (max-width: 480px) {
-    .login-right { padding: 32px 20px; }
-    .form-brand img { height: 50px; }
-    .toast { bottom: 16px; right: 16px; left: 16px; max-width: unset; }
-}
-
-/* ============================================
-   FIX: Remove the extra small box (input-icon)
-   The .input-icon span was rendering a leftover box
-============================================ */
-.input-icon { display: none !important; }
-
-/* Remove the right-side padding since icon is gone */
-.input-wrapper input {
-    padding: 14px 16px;
-}
-/* But password input still needs space for eye button */
-.input-wrapper input[type="password"],
-.input-wrapper input#login-password,
-.input-wrapper input#signup-password {
-    padding-right: 46px;
 }
 
 /* ============================================
@@ -766,11 +686,14 @@ a { text-decoration: none; color: inherit; }
 }
 .close-modal {
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 700;
     color: var(--text-muted);
     transition: var(--transition-fast);
-    padding: 6px 10px;
+    padding: 4px 12px;
     border-radius: 8px;
+    line-height: 1;
+    user-select: none;
 }
 .close-modal:hover {
     color: var(--accent-red);
@@ -810,7 +733,19 @@ a { text-decoration: none; color: inherit; }
     background: var(--border-light);
 }
 
-/* Responsive modal */
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+    .login-left { padding: 48px 40px; }
+    .login-right { padding: 48px 40px; }
+    .hero-headline,
+    .hero-headline-2 { font-size: 2.2rem; }
+    .hero-content { gap: 44px; }
+}
+@media (max-width: 992px) {
+    .login-wrapper { grid-template-columns: 1fr; }
+    .login-left { display: none; }
+    .login-right { padding: 48px 24px; min-height: 100vh; }
+}
 @media (max-width: 600px) {
     .modal-header { padding: 18px 20px; }
     .modal-body { padding: 20px; }
@@ -820,4 +755,9 @@ a { text-decoration: none; color: inherit; }
     .form-actions button {
         width: 100%;
     }
+}
+@media (max-width: 480px) {
+    .login-right { padding: 32px 20px; }
+    .form-brand img { height: 50px; }
+    .toast { bottom: 16px; right: 16px; left: 16px; max-width: unset; }
 }
