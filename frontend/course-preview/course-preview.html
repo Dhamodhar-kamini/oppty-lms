@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Preview - Oppty TechHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="course-preview.css">
+</head>
+<body>
+
+    
+
+    <div class="app-container">
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top-section">
+                <div class="sidebar-header">
+                    <img src="../assets/opptylogo.png" alt="Oppty Logo" class="sidebar-logo" onerror="this.outerHTML='<h2 style=\'color:#0f172a; margin:0;\'>Oppty</h2>'">
+                    <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="courses.html" class="nav-item">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span>Overview</span>
+                    </a>
+                    
+                    <div class="nav-wrapper">
+                        <div class="nav-item active" id="course-toggle">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>Course</span>
+                            <i class="fa-solid fa-chevron-down chevron"></i>
+                        </div>
+                        <ul class="sub-menu show" id="sub-menu">
+                            <li><a href="../courses/courses.html" class="active-sub">Top course</a></li>
+                            <li><a href="../courses/courses.html">Backend Architecture</a></li>
+                            <li><a href="../courses/courses.html">Cinematic UI/UX</a></li>
+                        </ul>
+                    </div>
+
+                    <a href="../my-course/my-course.html" class="nav-item">
+                        <i class="fa-solid fa-desktop"></i>
+                        <span>My course</span>
+                    </a>
+
+                    <a href="../learning-progress/learning-progress.html" class="nav-item">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Learning progress</span>
+                    </a>
+                    
+                    <a href="#" class="nav-item">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span>Community</span>
+                    </a>
+                </nav>
+            </div>
+
+            
+        </aside>
+
+        <main class="content-area">
+            
+            <header class="topbar">
+                <div class="header-left">
+                    <div class="mobile-toggle" id="mobile-toggle">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                    </div>
+                    <a href="../courses/courses.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Courses</a>
+                </div>
+                <div class="header-right user-profile">
+                    <span class="user-name">Manikhanta</span>
+                    <img src="https://i.pravatar.cc/150?img=11" alt="User" class="avatar">
+                </div>
+            </header>
+
+            <section class="preview-layout fade-in-up">
+                
+                <div class="preview-main">
+                    
+                    <div class="video-container" id="open-video-btn">
+                        <img id="preview-poster" src="" alt="Video Poster" class="video-poster">
+                        <div class="play-overlay">
+                            <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+                        </div>
+                        <div class="badge-free-video">Free Preview</div>
+                    </div>
+
+                    <div class="course-header-info">
+                        <div class="tags-wrap" id="preview-tags"></div>
+                        
+                        <h1 class="preview-title" id="preview-title">Loading Course...</h1>
+                        
+                        <p class="preview-subtitle"></p>
+                        
+                        <div class="preview-meta">
+                            <span><i class="fa-solid fa-star"></i> 4.9 (2k+ reviews)</span>
+                            <span><i class="fa-solid fa-user-group"></i> 15k Students</span>
+                            <span id="preview-level"></span>
+                        </div>
+                    </div>
+
+                    <div class="content-tabs">
+                        <button class="tab-btn active" data-target="tab-about">About Course</button>
+                        <button class="tab-btn" data-target="tab-curriculum">Curriculum</button>
+                        <button class="tab-btn" data-target="tab-reviews">Reviews</button>
+                    </div>
+
+                    <div class="tab-content-container">
+                        <div class="tab-content active" id="tab-about">
+                            </div>
+                        
+                        <div class="tab-content" id="tab-curriculum">
+                            </div>
+
+                        <div class="tab-content" id="tab-reviews">
+                            </div>
+                    </div>
+
+                </div>
+
+                <div class="preview-sidebar-wrap">
+                    <div class="purchase-card sticky">
+                        <div class="price-header">
+                            <h2 class="price-current" id="preview-price"></h2>
+                            <span class="price-original" id="preview-original-price"></span>
+                        </div>
+                        <p class="price-guarantee"><i class="fa-solid fa-shield-halved"></i> 30-Day Money-Back Guarantee</p>
+
+                        <button class="btn-enroll-primary" id="btn-enroll">Enroll Now</button>
+                        
+                        <div class="course-includes">
+                            <h4>This course includes:</h4>
+                            <ul>
+                                <li><i class="fa-solid fa-video"></i> 12 hours on-demand video</li>
+                                <li><i class="fa-solid fa-file-code"></i> Full source code & assets</li>
+                                <li><i class="fa-solid fa-infinity"></i> Full lifetime access</li>
+                                <li><i class="fa-solid fa-mobile-screen"></i> Access on mobile and TV</li>
+                                <li><i class="fa-solid fa-certificate"></i> Certificate of completion</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <script src="course-preview.js"></script>
+</body>
+</html>

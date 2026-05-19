@@ -1,205 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Oppty TechHub LMS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="courses.css">
-</head>
-<body>
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="courses.css" />
+  </head>
+  <body>
     <!--loader section-->
 
     <div id="oppty-global-loader" class="global-loader-overlay">
-    <div class="loader-wrapper">
-        
+      <div class="loader-wrapper">
         <div class="book-glow"></div>
 
         <div class="book-perspective">
-            <div class="realistic-book">
-                <div class="book-cover left-cover"></div>
-                <div class="book-page static-left-1"></div>
-                <div class="book-page static-left-2"></div>
-                
-                <div class="book-spine"></div>
+          <div class="realistic-book">
+            <div class="book-cover left-cover"></div>
+            <div class="book-page static-left-1"></div>
+            <div class="book-page static-left-2"></div>
 
-                <div class="book-cover right-cover"></div>
-                <div class="book-page static-right-1"></div>
-                <div class="book-page static-right-2"></div>
+            <div class="book-spine"></div>
 
-                <div class="flip-page" style="--flip-delay: 0s; --z-index: 6;">
-                    <div class="page-front"></div>
-                    <div class="page-back"></div>
-                </div>
-                <div class="flip-page" style="--flip-delay: 0.8s; --z-index: 5;">
-                    <div class="page-front"></div>
-                    <div class="page-back"></div>
-                </div>
-                <div class="flip-page" style="--flip-delay: 1.6s; --z-index: 4;">
-                    <div class="page-front"></div>
-                    <div class="page-back"></div>
-                </div>
+            <div class="book-cover right-cover"></div>
+            <div class="book-page static-right-1"></div>
+            <div class="book-page static-right-2"></div>
+
+            <div class="flip-page" style="--flip-delay: 0s; --z-index: 6">
+              <div class="page-front"></div>
+              <div class="page-back"></div>
             </div>
+            <div class="flip-page" style="--flip-delay: 0.8s; --z-index: 5">
+              <div class="page-front"></div>
+              <div class="page-back"></div>
+            </div>
+            <div class="flip-page" style="--flip-delay: 1.6s; --z-index: 4">
+              <div class="page-front"></div>
+              <div class="page-back"></div>
+            </div>
+          </div>
         </div>
 
         <div class="brand-logo-text">
-            <img src="../assets/opptylogo.png" alt="Oppty TechHub Logo" class="logo" onerror="this.outerHTML='<span style=\'font-size: 1.6rem; font-weight: 800; letter-spacing: 0.05em; color: #0f172a;\'>OPPTY TECHHUB</span>'">
+          <img
+            src="../assets/opptylogo.png"
+            alt="Oppty TechHub Logo"
+            class="logo"
+            onerror="
+              this.outerHTML =
+                '<span style=\'font-size: 1.6rem; font-weight: 800; letter-spacing: 0.05em; color: #0f172a;\'>OPPTY TECHHUB</span>'
+            "
+          />
         </div>
-
+      </div>
     </div>
-</div>
-
-
 
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="../assets/opptylogo.png" alt="Oppty Logo" class="sidebar-logo">
-            <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
-        </div>
-        
-        <nav class="nav-menu">
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-border-all"></i>
-                <span>Overview</span>
-            </a>
-            
-            <div class="nav-wrapper">
-                <div class="nav-item active" id="course-toggle">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Course</span>
-                    <i class="fa-solid fa-chevron-down chevron"></i>
-                </div>
-                <ul class="sub-menu show" id="sub-menu">
-                    <li><a href="courses.html" class="active">Top course</a></li>
-                    <li><a href="#">Backend Architecture</a></li>
-                    <li><a href="#">Cinematic UI/UX</a></li>
-                </ul>
-            </div>
+      <div class="sidebar-header">
+        <img
+          src="../assets/opptylogo.png"
+          alt="Oppty Logo"
+          class="sidebar-logo"
+        />
+        <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
+      </div>
 
-            <a href="../my-course/my-course.html" class="nav-item">
-                <i class="fa-solid fa-tv"></i>
-                <span>My course</span>
-            </a>
-            <a href="../learning-progress/learning-progress.html" class="nav-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Learning progress</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-users"></i>
-                <span>Community</span>
-            </a>
-        </nav>
+      <nav class="nav-menu">
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-border-all"></i>
+          <span>Overview</span>
+        </a>
+
+        <div class="nav-wrapper">
+          <div class="nav-item active" id="course-toggle">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Course</span>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </div>
+          <ul class="sub-menu show" id="sub-menu">
+            <li><a href="courses.html" class="active">Top course</a></li>
+            <li><a href="#">Backend Architecture</a></li>
+            <li><a href="#">Cinematic UI/UX</a></li>
+          </ul>
+        </div>
+
+        <a href="../my-course/my-course.html" class="nav-item">
+          <i class="fa-solid fa-tv"></i>
+          <span>My course</span>
+        </a>
+        <a href="../learning-progress/learning-progress.html" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Learning progress</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Community</span>
+        </a>
+      </nav>
     </aside>
 
     <main class="main-content">
-        <header class="topbar">
-            <div class="mobile-toggle" id="mobile-toggle">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </div>
-            
-            <div class="search-container">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Press ⌘ + F to search courses...">
-            </div>
+      <header class="topbar">
+        <div class="mobile-toggle" id="mobile-toggle">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </div>
 
-            <div class="user-profile">
-                <button class="btn-dark">
-                    Join Bootcamp
-                    <span class="badge-accent">20% OFF</span>
-                </button>
-                
-                <div class="profile-info">
-                    <span class="user-name">DHAMODHAR</span>
-                    <img src="https://i.pravatar.cc/150?img=11" alt="User Profile" class="avatar">
-                </div>
-            </div>
-        </header>
+        <div class="search-container">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Press ⌘ + F to search courses..." />
+        </div>
 
-        <section class="hero-banner fade-in-up">
-            <div class="hero-glow"></div>
-            <div class="hero-content">
-                <h1>Master Next-Level Engineering</h1>
-                <p>An extensive guide to developing, refining, and perfecting full-stack competencies. Build highly scalable architectures and max-level cinematic interfaces.</p>
-                <a href="#" class="hero-link">Explore the curriculum <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-            
-            <div class="tech-icon-container">
-                <i class="fa-brands fa-react tech-icon tech-icon-current"></i>
-                <i class="fa-brands fa-react tech-icon tech-icon-next"></i>
-            </div>
-        </section>
+        <div class="user-profile">
+          <button class="btn-dark">
+            Join Bootcamp
+            <span class="badge-accent">20% OFF</span>
+          </button>
 
-        <section class="courses-section">
-            <div class="section-header fade-in-up" style="animation-delay: 0.1s;">
-                <h2>Top courses</h2>
-                <a href="#" class="see-all">View all <i class="fa-solid fa-arrow-right-long"></i></a>
-            </div>
+          <div class="profile-info">
+            <span class="user-name">DHAMODHAR</span>
+            <img
+              src="https://i.pravatar.cc/150?img=11"
+              alt="User Profile"
+              class="avatar"
+            />
+          </div>
+        </div>
+      </header>
 
-            <div class="courses-grid">
-                <article class="course-card fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="card-image-wrapper">
-                        <span class="badge-new">NEW</span>
-                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="UI Animations">
-                        <div class="image-overlay"></div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">Master max-level visual effects, scroll-jacking, and high-end futuristic UI design using modern CSS and JS.</p>
-                        <div class="card-meta">
-                            
-                            <span class="level"><i class="fa-solid fa-layer-group"></i> Advanced</span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="tags">
-                                <span class="tag">UI/UX</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+      <section class="hero-banner fade-in-up">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+          <h1>Master Next-Level Engineering</h1>
+          <p>
+            An extensive guide to developing, refining, and perfecting
+            full-stack competencies. Build highly scalable architectures and
+            max-level cinematic interfaces.
+          </p>
+          <a href="#" class="hero-link"
+            >Explore the curriculum <i class="fa-solid fa-arrow-right"></i
+          ></a>
+        </div>
 
-                <article class="course-card fade-in-up" style="animation-delay: 0.3s;">
-                    <div class="card-image-wrapper">
-                        <span class="badge-hot">HOT</span>
-                        <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Django">
-                        <div class="image-overlay"></div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">Scale backend logic, implement robust authentication systems, and build high-performance APIs.</p>
-                        <div class="card-meta">
-                            
-                            <span class="level"><i class="fa-solid fa-layer-group"></i> Intermediate</span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="tags">
-                                <span class="tag">BACKEND</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+        <div class="tech-icon-container">
+          <i class="fa-brands fa-react tech-icon tech-icon-current"></i>
+          <i class="fa-brands fa-react tech-icon tech-icon-next"></i>
+        </div>
+      </section>
 
-                <article class="course-card fade-in-up" style="animation-delay: 0.4s;">
-                    <div class="card-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Prisma DB">
-                        <div class="image-overlay"></div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">Seamlessly connect your Next.js/React stack with automated schemas and flawless database queries.</p>
-                        <div class="card-meta">
-                            
-                            <span class="level"><i class="fa-solid fa-layer-group"></i> Beginner</span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="tags">
-                                <span class="tag tag-free">FREE</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
+      <section class="courses-section">
+        <div class="section-header fade-in-up" style="animation-delay: 0.1s">
+          <h2>Top courses</h2>
+          <a href="#" class="see-all"
+            >View all <i class="fa-solid fa-arrow-right-long"></i
+          ></a>
+        </div>
+
+        <div class="courses-grid" id="dynamic-courses-grid">
+    </div>
+      </section>
     </main>
 
     <script src="courses.js"></script>
-</body>
+  </body>
 </html>
