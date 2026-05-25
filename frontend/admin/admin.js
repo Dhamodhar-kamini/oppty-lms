@@ -461,44 +461,66 @@ function deleteCourse(e, i) {
 }
 
 /* ----- Add Course Form ----- */
-document.getElementById('add-course-form').addEventListener('submit', (e) => {
+document.getElementById('add-course-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const title       = document.getElementById('course-title').value.trim();
+
+    const course_name = document.getElementById('course-title').value.trim();
     const instructor  = document.getElementById('course-instructor').value.trim();
     const price       = document.getElementById('course-price').value;
-    const level       = document.getElementById('course-level').value;
     const description = document.getElementById('course-description').value.trim();
 
-    if (!courseThumbData) { showToast('Please upload a thumbnail image.', 'error'); return; }
+    if (!courseThumbData) {
+        showToast('Please upload a thumbnail image.', 'error');
+        return;
+    }
 
-    coursesData = loadData(KEYS.courses, []);
-    coursesData.unshift({
-        id: 'C_' + Date.now(),
-        title, instructor,
-        students: 0,
-        price: parseFloat(price) > 0 ? '$' + parseFloat(price).toFixed(2) : 'FREE',
-        level, status: 'draft',
-        img: courseThumbData,
-        imgName: courseThumbName,
-        description,
-        subtopics: [],
-        createdAt: new Date().toISOString().split('T')[0]
-    });
+    // Convert base64 image to file
+    const blob = await fetch(courseThumbData).then(res => res.blob());
 
-    saveData(KEYS.courses, coursesData);
-    showToast('Course created successfully!');
+    const formData = new FormData();
 
-    document.getElementById('add-course-form').reset();
-    courseThumbData = null; courseThumbName = '';
-    courseThumbPreviewEl.style.display = 'none';
-    courseThumbUploadEl.style.display  = '';
+    // Match Django model names exactly
+    formData.append('course_name', course_name);
+    formData.append('price', price || 0);
+    formData.append('instructor', instructor);
+    formData.append('description', description);
 
-    renderAdminCourses();
-    updateDashStats();
-    setTimeout(() => navigateTo('all-courses'), 600);
+    // thumbnail field matches Django model
+    formData.append('thumbnail', blob, courseThumbName);
+
+    try {
+
+        const response = await fetch('http://192.168.1.8:8000/api/create_course/', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || 'Failed to create course');
+        }
+
+        showToast('Course created successfully!');
+
+        document.getElementById('add-course-form').reset();
+
+        courseThumbData = null;
+        courseThumbName = '';
+
+        courseThumbPreviewEl.style.display = 'none';
+        courseThumbUploadEl.style.display = '';
+
+        renderAdminCourses();
+        updateDashStats();
+
+        setTimeout(() => navigateTo('all-courses'), 600);
+
+    } catch (error) {
+        console.error(error);
+        showToast(error.message || 'Something went wrong', 'error');
+    }
 });
-
-renderAdminCourses();
 
 /* ============================================================
    COURSE DETAIL & SUBTOPICS
