@@ -461,41 +461,99 @@ function deleteCourse(e, i) {
 }
 
 /* ----- Add Course Form ----- */
-document.getElementById('add-course-form').addEventListener('submit', (e) => {
+/* ----- Add Course Form ----- */
+document.getElementById('add-course-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    // Grab input values
     const title       = document.getElementById('course-title').value.trim();
     const instructor  = document.getElementById('course-instructor').value.trim();
     const price       = document.getElementById('course-price').value;
     const level       = document.getElementById('course-level').value;
     const description = document.getElementById('course-description').value.trim();
+    
+    // Grab the actual file object, not the base64 preview
+    const fileInput   = document.getElementById('course-thumb-file');
 
-    if (!courseThumbData) { showToast('Please upload a thumbnail image.', 'error'); return; }
+    if (!fileInput.files.length) { 
+        showToast('Please upload a thumbnail image.', 'error'); 
+        return; 
+    }
 
-    coursesData = loadData(KEYS.courses, []);
-    coursesData.unshift({
-        id: 'C_' + Date.now(),
-        title, instructor,
-        students: 0,
-        price: parseFloat(price) > 0 ? '$' + parseFloat(price).toFixed(2) : 'FREE',
-        level, status: 'draft',
-        img: courseThumbData,
-        imgName: courseThumbName,
-        description,
-        subtopics: [],
-        createdAt: new Date().toISOString().split('T')[0]
-    });
+    // 1. Pack data into FormData for Django to read req.POST and req.FILES
+    const formData = new FormData();
+    formData.append('course_name', title);
+    formData.append('instructor', instructor);
+    formData.append('price', price); 
+    formData.append('description', description);
+    formData.append('thumbnail', fileInput.files[0]); 
 
-    saveData(KEYS.courses, coursesData);
-    showToast('Course created successfully!');
+    try {
+        // Optional: Change button text to show loading state
+        const submitBtn = document.querySelector('#add-course-form button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+        submitBtn.disabled = true;
 
-    document.getElementById('add-course-form').reset();
-    courseThumbData = null; courseThumbName = '';
-    courseThumbPreviewEl.style.display = 'none';
-    courseThumbUploadEl.style.display  = '';
+        // 2. Send POST request to Django
+        const response = await fetch('http://127.0.0.1:8000/api/create_course/', {
+            method: 'POST',
+            body: formData 
+            // Note: DO NOT set 'Content-Type' headers manually here. 
+            // The browser will automatically set it to 'multipart/form-data' with proper boundaries.
+        });
 
-    renderAdminCourses();
-    updateDashStats();
-    setTimeout(() => navigateTo('all-courses'), 600);
+        if (response.ok) {
+            const savedCourse = await response.json();
+            showToast('Course created successfully!');
+
+            // 3. Update local array so the UI reflects the change instantly
+            coursesData = loadData(KEYS.courses, []);
+            coursesData.unshift({
+                id: savedCourse.id,
+                title: savedCourse.course_name,
+                instructor: savedCourse.instructor,
+                students: 0,
+                price: '$' + parseFloat(savedCourse.price).toFixed(2),
+                level: level, 
+                status: 'draft',
+                img: 'http://127.0.0.1:8000' + savedCourse.thumbnail, // Combine backend URL with image path
+                description: savedCourse.description,
+                subtopics: [],
+                createdAt: new Date().toISOString().split('T')[0]
+            });
+
+            saveData(KEYS.courses, coursesData);
+
+            // 4. Reset Form UI
+            document.getElementById('add-course-form').reset();
+            courseThumbData = null; 
+            courseThumbName = '';
+            courseThumbPreviewEl.style.display = 'none';
+            courseThumbUploadEl.style.display  = '';
+
+            renderAdminCourses();
+            updateDashStats();
+            setTimeout(() => navigateTo('all-courses'), 600);
+            
+        } else {
+            const errorData = await response.json();
+            console.error("Backend Error:", errorData);
+            showToast('Failed to create course. Check console.', 'error');
+        }
+        
+        // Restore button state
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+
+    } catch (error) {
+        console.error('Network Error:', error);
+        showToast('Network error. Is the server running?', 'error');
+        
+        const submitBtn = document.querySelector('#add-course-form button[type="submit"]');
+        submitBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Course';
+        submitBtn.disabled = false;
+    }
 });
 
 renderAdminCourses();

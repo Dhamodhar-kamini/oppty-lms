@@ -1,174 +1,150 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // ==========================================
-    // 1. MASTER COURSE DATABASE (Dynamic Generation)
-    // ==========================================
-    const coursesData = [
-        {
-            id: "course-animation-1",
-            badge: { text: "NEW", type: "badge-new" },
-            image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            title: "Cinematic Web Animations",
-            desc: "Master max-level visual effects, scroll-jacking, and high-end futuristic UI design using modern CSS and JS.",
-            level: "Advanced",
-            tags: ['<span class="tag">UI/UX</span>']
-        },
-        {
-            id: "course-django-1",
-            badge: { text: "HOT", type: "badge-hot" },
-            image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            title: "Advanced Django Backend",
-            desc: "Scale backend logic, implement robust authentication systems, and build high-performance APIs.",
-            level: "Intermediate",
-            tags: ['<span class="tag">BACKEND</span>']
-        },
-        {
-            id: "course-prisma-1",
-            badge: null,
-            image: "https://images.unsplash.com/photo-1618477388954-7852f32655ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            title: "Prisma DB & Next.js",
-            desc: "Seamlessly connect your Next.js/React stack with automated schemas and flawless database queries.",
-            level: "Beginner",
-            tags: ['<span class="tag tag-free">FREE</span>']
-        }
-    ];
-
     const gridContainer = document.getElementById('dynamic-courses-grid');
-
-    if (gridContainer) {
-        let generatedHTML = '';
-
-        coursesData.forEach((course, index) => {
-            const delay = (0.2 + (index * 0.1)).toFixed(1);
-            const badgeHTML = course.badge ? `<span class="${course.badge.type}">${course.badge.text}</span>` : '';
-
-            generatedHTML += `
-                <article class="course-card fade-in-up" data-course-id="${course.id}" style="animation-delay: ${delay}s;">
-                    <div class="card-image-wrapper">
-                        ${badgeHTML}
-                        <img src="${course.image}" alt="${course.title}">
-                        <div class="image-overlay"></div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">${course.desc}</p>
-                        <div class="card-meta">
-                            <span class="level"><i class="fa-solid fa-layer-group"></i> ${course.level}</span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="tags">
-                                ${course.tags.join('')}
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            `;
-        });
-
-        gridContainer.innerHTML = generatedHTML;
-    }
-
-
-    // ==========================================
-    // 2. GLOBAL LOADER & UNIFIED NAVIGATION
-    // ==========================================
     const loader = document.getElementById('oppty-global-loader');
     
-    // The exact time required for the Oppty Logo CSS animation to finish
-    const MIN_LOADER_TIME = 2200; 
-    const startTime = Date.now();
+    // Set your Django backend URL here
+    const BACKEND_URL = 'http://127.0.0.1:8000'; 
 
-    // --- FADE OUT ON PAGE LOAD ---
-    function hideLoaderOnLoad() {
-        const elapsedTime = Date.now() - startTime;
-        // Keep it on screen for at least 800ms on a fresh load so it doesn't just flash quickly
-        const remainingTime = Math.max(0, 800 - elapsedTime);
+    // ==========================================
+    // 1. FETCH COURSES FROM BACKEND
+    // ==========================================
+    async function fetchAndRenderCourses() {
+        if (!gridContainer) return;
 
-        setTimeout(() => {
-            if (loader) loader.classList.add('hide-loader');
-        }, remainingTime);
-    }
-
-    window.addEventListener('load', hideLoaderOnLoad);
-    
-    if (document.readyState === 'complete') {
-        hideLoaderOnLoad();
-    }
-
-    // --- UNIFIED NAVIGATION FUNCTION ---
-    function triggerLoaderAndNavigate(targetUrl) {
-        if (loader) {
-            // Show the loader
-            loader.classList.remove('hide-loader');
+        try {
+            // Fetch from your Django API
+            const response = await fetch(`${BACKEND_URL}/api/courses/`);
+            if (!response.ok) throw new Error('Network response was not ok');
             
-            // Force the CSS animations to restart so they play from the beginning
-            const icon = loader.querySelector('.loader-icon');
-            const fullLogo = loader.querySelector('.loader-full-logo');
-            
-            if (icon && fullLogo) {
-                icon.style.animation = 'none';
-                fullLogo.style.animation = 'none';
-                icon.offsetHeight; /* Trigger browser reflow */
-                icon.style.animation = null; 
-                fullLogo.style.animation = null; 
-            }
-            
-            // Wait EXACTLY 2200ms before navigating, ensuring the animation completes!
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, MIN_LOADER_TIME);
+            const coursesData = await response.json();
+            let generatedHTML = '';
 
-        } else {
-            // Safety fallback if loader is missing from HTML
-            window.location.href = targetUrl;
+            coursesData.forEach((course, index) => {
+                const delay = (0.2 + (index * 0.1)).toFixed(1);
+                
+                // Handle the image URL (Django returns a relative path, so we prefix it)
+                const imageUrl = course.thumbnail ? `${BACKEND_URL}${course.thumbnail}` : 'https://via.placeholder.com/800x500?text=No+Thumbnail';
+
+                generatedHTML += `
+                    <article class="course-card fade-in-up" data-course-id="${course.id}" style="animation-delay: ${delay}s;">
+                        <div class="card-image-wrapper">
+                            <img src="${imageUrl}" alt="${course.course_name}">
+                            <div class="image-overlay"></div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">${course.course_name}</h3>
+                            <p class="card-desc">${course.description || 'No description provided.'}</p>
+                            
+                            <div class="card-meta">
+                                <span class="level"><i class="fa-solid fa-user-tie"></i> ${course.instructor || 'TBA'}</span>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <div class="tags">
+                                    <span class="tag">₹${course.price}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            });
+
+            gridContainer.innerHTML = generatedHTML;
+
+            // Initialize interactions AFTER the DOM is built
+            initCardInteractions();
+            initScrollObserver();
+
+        } catch (error) {
+            console.error("Error fetching courses:", error);
+            gridContainer.innerHTML = '<p style="color: white; text-align: center;">Failed to load courses. Please check your connection.</p>';
         }
     }
 
-    // --- A. LISTEN FOR SIDEBAR/MENU LINK CLICKS ---
-    document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const targetUrl = this.getAttribute('href');
-            const targetAttr = this.getAttribute('target');
+    // Call the function to trigger the fetch on load
+    fetchAndRenderCourses();
 
-            // Ignore "#", "javascript:", mailto links, or opening in new tabs
-            if (
-                !targetUrl || 
-                targetUrl.startsWith('#') || 
-                targetUrl.startsWith('javascript') || 
-                targetUrl.startsWith('mailto:') || 
-                targetUrl.startsWith('tel:') || 
-                targetAttr === '_blank'
-            ) {
-                return; 
-            }
 
-            e.preventDefault(); 
-            triggerLoaderAndNavigate(targetUrl);
-        });
-    });
-
-    // --- B. LISTEN FOR DYNAMIC COURSE CARD CLICKS ---
-    if (gridContainer) {
+    // ==========================================
+    // 2. CARD INTERACTIONS & LOADER LOGIC
+    // ==========================================
+    function initCardInteractions() {
         const courseCards = gridContainer.querySelectorAll('.course-card');
-        
         courseCards.forEach(card => {
             card.addEventListener('click', function() {
                 const courseId = this.getAttribute('data-course-id');
-                
                 if (courseId) {
-                    const targetUrl = `../course-preview/course-preview.html?id=${courseId}`;
-                    triggerLoaderAndNavigate(targetUrl);
+                    if (loader) {
+                        loader.classList.remove('hide-loader');
+                        const icon = loader.querySelector('.loader-icon');
+                        const fullLogo = loader.querySelector('.loader-full-logo');
+                        if (icon && fullLogo) {
+                            icon.style.animation = 'none';
+                            fullLogo.style.animation = 'none';
+                            icon.offsetHeight; 
+                            icon.style.animation = null; 
+                            fullLogo.style.animation = null; 
+                        }
+                    }
+                    setTimeout(() => {
+                        window.location.href = `../course-preview/course-preview.html?id=${courseId}`;
+                    }, 400); 
                 }
             });
         });
     }
 
+    // ==========================================
+    // 3. ANIMATION OBSERVER
+    // ==========================================
+    function initScrollObserver() {
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+    }
 
     // ==========================================
-    // 3. SIDEBAR & MENU LOGIC
+    // 4. GLOBAL LOADER & NAV (Standard Links)
+    // ==========================================
+    window.addEventListener('load', () => {
+        setTimeout(() => { if (loader) loader.classList.add('hide-loader'); }, 800); 
+    });
+
+    document.querySelectorAll('a:not(.course-card)').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetUrl = this.getAttribute('href');
+            const targetAttr = this.getAttribute('target');
+
+            if (!targetUrl || targetUrl.startsWith('#') || targetUrl.startsWith('javascript') || targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:') || targetAttr === '_blank') {
+                return; 
+            }
+
+            e.preventDefault(); 
+            if (loader) loader.classList.remove('hide-loader'); 
+            setTimeout(() => { window.location.href = targetUrl; }, 400); 
+        });
+    });
+
+    // ==========================================
+    // 5. SIDEBAR & MENU LOGIC
     // ==========================================
     const mobileToggle = document.getElementById('mobile-toggle');
     const sidebar = document.getElementById('sidebar');
     const closeSidebarBtn = document.getElementById('close-sidebar');
+    const courseToggle = document.getElementById('course-toggle');
+    const subMenu = document.getElementById('sub-menu');
+    const chevron = courseToggle ? courseToggle.querySelector('.chevron') : null;
 
     if (mobileToggle && sidebar) {
         mobileToggle.addEventListener('click', () => sidebar.classList.add('show'));
@@ -178,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeSidebarBtn.addEventListener('click', () => sidebar.classList.remove('show'));
     }
 
-    // Close sidebar when clicking outside on mobile
     document.addEventListener('click', (e) => {
         if (window.innerWidth <= 992 && sidebar && mobileToggle) {
             if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target) && sidebar.classList.contains('show')) {
@@ -187,17 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const courseToggle = document.getElementById('course-toggle');
-    const subMenu = document.getElementById('sub-menu');
-    const chevron = courseToggle ? courseToggle.querySelector('.chevron') : null;
-
-    if (subMenu && chevron) {
-        if (subMenu.classList.contains('show')) {
-            chevron.style.transform = 'rotate(-180deg)';
-        }
-    }
-
     if (courseToggle && subMenu && chevron) {
+        if (subMenu.classList.contains('show')) chevron.style.transform = 'rotate(-180deg)';
         courseToggle.addEventListener('click', (e) => {
             e.preventDefault();
             courseToggle.classList.toggle('active');
@@ -207,51 +173,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 4. ANIMATION OBSERVER FOR COURSE CARDS
-    // ==========================================
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animationPlayState = 'running';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Apply observer to dynamic elements after a slight delay
-    setTimeout(() => {
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            el.style.animationPlayState = 'paused';
-            observer.observe(el);
-        });
-    }, 100); 
-
-
-    // ==========================================
-    // 5. ADVANCED TECH ICON CROSS-FADE LOOP
+    // 6. ADVANCED TECH ICON CROSS-FADE LOOP
     // ==========================================
     const iconClasses = [
-        'fa-brands fa-react',
-        'fa-brands fa-node-js',
-        'fa-brands fa-vuejs',
-        'fa-brands fa-python',
-        'fa-brands fa-docker'
+        'fa-brands fa-react', 'fa-brands fa-node-js', 'fa-brands fa-vuejs', 
+        'fa-brands fa-python', 'fa-brands fa-docker'
     ];
-
     let currentIconIndex = 0;
     const currentIconNode = document.querySelector('.tech-icon-current');
     const nextIconNode = document.querySelector('.tech-icon-next');
-    const intervalTime = 3000; 
-    const transitionTime = 1000; 
-
+    
     function changeHeroIcon() {
         if (!currentIconNode || !nextIconNode) return; 
-        
         currentIconIndex = (currentIconIndex + 1) % iconClasses.length;
         
         nextIconNode.className = `${iconClasses[currentIconIndex]} tech-icon tech-icon-next`;
-
         nextIconNode.classList.remove('tech-icon-next');
         nextIconNode.classList.add('tech-icon-current');
         
@@ -261,10 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             currentIconNode.className = `${iconClasses[currentIconIndex]} tech-icon tech-icon-current`;
             nextIconNode.className = `${iconClasses[(currentIconIndex + 1) % iconClasses.length]} tech-icon tech-icon-next`;
-        }, transitionTime);
+        }, 1000);
     }
 
     if (currentIconNode && nextIconNode) {
-        setInterval(changeHeroIcon, intervalTime);
+        setInterval(changeHeroIcon, 3000);
     }
 });
