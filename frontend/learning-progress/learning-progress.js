@@ -2,58 +2,65 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('oppty-global-loader');
     
-    // --- 1. FADE OUT ON PAGE LOAD ---
-    // Wait for the window to finish loading everything (images, css, etc.)
-    window.addEventListener('load', () => {
-        // Optional: Ensure the loader shows for at least 800ms so it looks smooth
-        setTimeout(() => {
-            if (loader) {
-                loader.classList.add('hide-loader');
-            }
-        }, 800); 
-    });
+    // The total time of our CSS animation is 1.2s (icon) + 0.8s (logo) = ~2000ms
+    const MIN_LOADER_TIME = 2200; 
+    const startTime = Date.now();
 
-    // Fallback just in case 'load' event fires before the script runs
-    if (document.readyState === 'complete') {
+    function hideLoader() {
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, MIN_LOADER_TIME - elapsedTime);
+
         setTimeout(() => {
             if (loader) loader.classList.add('hide-loader');
-        }, 800);
+        }, remainingTime);
     }
 
-    // --- 2. FADE IN ON PAGE EXIT (Link Clicks) ---
-    // Listen for clicks on all links
+    // --- 1. HIDE LOADER ON PAGE LOAD ---
+    window.addEventListener('load', hideLoader);
+
+    // Fallback if window is already loaded
+    if (document.readyState === 'complete') {
+        hideLoader();
+    }
+
+    // --- 2. SHOW LOADER ON PAGE EXIT (Link Clicks) ---
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function(e) {
-            
             const targetUrl = this.getAttribute('href');
             const targetAttr = this.getAttribute('target');
 
-            // Don't trigger loader for:
-            // 1. Links opening in a new tab (_blank)
-            // 2. Anchor links on the same page (#something)
-            // 3. Javascript triggers or empty hrefs
-            // 4. Mailto/Tel links
+            // Ignore links that open in new tabs, anchor links, or JS triggers
             if (
                 !targetUrl || 
                 targetUrl.startsWith('#') || 
                 targetUrl.startsWith('javascript') || 
                 targetUrl.startsWith('mailto:') || 
-                targetUrl.startsWith('tel:') || 
                 targetAttr === '_blank'
             ) {
                 return; 
             }
 
-            // If it's a valid internal page navigation, show the loader!
-            e.preventDefault(); // Stop immediate navigation
+            e.preventDefault(); 
             if (loader) {
-                loader.classList.remove('hide-loader'); // Fade the loader back in
+                // Reset the loader animation by forcing a quick reflow
+                loader.classList.remove('hide-loader');
+                
+                // Re-trigger the CSS animations so they play again
+                const icon = loader.querySelector('.loader-icon');
+                const fullLogo = loader.querySelector('.loader-full-logo');
+                if(icon && fullLogo) {
+                    icon.style.animation = 'none';
+                    fullLogo.style.animation = 'none';
+                    icon.offsetHeight; /* trigger reflow */
+                    icon.style.animation = null; 
+                    fullLogo.style.animation = null; 
+                }
             }
 
-            // Wait for the fade-in animation to start, then navigate
+            // Wait for overlay to fade in, then navigate
             setTimeout(() => {
                 window.location.href = targetUrl;
-            }, 400); // 400ms gives the CSS fade-in time to trigger
+            }, 400); 
         });
     });
 });

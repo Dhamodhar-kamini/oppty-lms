@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    const gridContainer = document.getElementById('dynamic-courses-grid'); // Make sure your HTML grid uses this ID
+    const gridContainer = document.getElementById('dynamic-courses-grid');
 
     if (gridContainer) {
         let generatedHTML = '';
@@ -69,70 +69,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 2. GLOBAL LOADER & NAVIGATION HANDLING
+    // 2. GLOBAL LOADER & UNIFIED NAVIGATION
     // ==========================================
     const loader = document.getElementById('oppty-global-loader');
     
-    // --- FADE OUT ON PAGE LOAD ---
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            if (loader) loader.classList.add('hide-loader');
-        }, 800); 
-    });
+    // The exact time required for the Oppty Logo CSS animation to finish
+    const MIN_LOADER_TIME = 2200; 
+    const startTime = Date.now();
 
-    if (document.readyState === 'complete') {
+    // --- FADE OUT ON PAGE LOAD ---
+    function hideLoaderOnLoad() {
+        const elapsedTime = Date.now() - startTime;
+        // Keep it on screen for at least 800ms on a fresh load so it doesn't just flash quickly
+        const remainingTime = Math.max(0, 800 - elapsedTime);
+
         setTimeout(() => {
             if (loader) loader.classList.add('hide-loader');
-        }, 800);
+        }, remainingTime);
     }
 
-    // --- FADE IN ON PAGE EXIT (Standard Links) ---
+    window.addEventListener('load', hideLoaderOnLoad);
+    
+    if (document.readyState === 'complete') {
+        hideLoaderOnLoad();
+    }
+
+    // --- UNIFIED NAVIGATION FUNCTION ---
+    function triggerLoaderAndNavigate(targetUrl) {
+        if (loader) {
+            // Show the loader
+            loader.classList.remove('hide-loader');
+            
+            // Force the CSS animations to restart so they play from the beginning
+            const icon = loader.querySelector('.loader-icon');
+            const fullLogo = loader.querySelector('.loader-full-logo');
+            
+            if (icon && fullLogo) {
+                icon.style.animation = 'none';
+                fullLogo.style.animation = 'none';
+                icon.offsetHeight; /* Trigger browser reflow */
+                icon.style.animation = null; 
+                fullLogo.style.animation = null; 
+            }
+            
+            // Wait EXACTLY 2200ms before navigating, ensuring the animation completes!
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, MIN_LOADER_TIME);
+
+        } else {
+            // Safety fallback if loader is missing from HTML
+            window.location.href = targetUrl;
+        }
+    }
+
+    // --- A. LISTEN FOR SIDEBAR/MENU LINK CLICKS ---
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function(e) {
             const targetUrl = this.getAttribute('href');
             const targetAttr = this.getAttribute('target');
 
-            if (!targetUrl || targetUrl.startsWith('#') || targetUrl.startsWith('javascript') || targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:') || targetAttr === '_blank') {
+            // Ignore "#", "javascript:", mailto links, or opening in new tabs
+            if (
+                !targetUrl || 
+                targetUrl.startsWith('#') || 
+                targetUrl.startsWith('javascript') || 
+                targetUrl.startsWith('mailto:') || 
+                targetUrl.startsWith('tel:') || 
+                targetAttr === '_blank'
+            ) {
                 return; 
             }
 
             e.preventDefault(); 
-            if (loader) {
-                loader.classList.remove('hide-loader'); 
-            }
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 400); 
+            triggerLoaderAndNavigate(targetUrl);
         });
     });
 
-    // --- TRIGGER LOADER FROM DYNAMIC CARDS ---
+    // --- B. LISTEN FOR DYNAMIC COURSE CARD CLICKS ---
     if (gridContainer) {
         const courseCards = gridContainer.querySelectorAll('.course-card');
+        
         courseCards.forEach(card => {
             card.addEventListener('click', function() {
                 const courseId = this.getAttribute('data-course-id');
+                
                 if (courseId) {
-                    if (loader) {
-                        loader.classList.remove('hide-loader');
-                        // Optional: Reset custom CSS animations if you are using the Oppty Text loader
-                        const icon = loader.querySelector('.loader-icon');
-                        const fullLogo = loader.querySelector('.loader-full-logo');
-                        if (icon && fullLogo) {
-                            icon.style.animation = 'none';
-                            fullLogo.style.animation = 'none';
-                            icon.offsetHeight; 
-                            icon.style.animation = null; 
-                            fullLogo.style.animation = null; 
-                        }
-                    }
-                    setTimeout(() => {
-                        window.location.href = `../course-preview/course-preview.html?id=${courseId}`;
-                    }, 400); 
+                    const targetUrl = `../course-preview/course-preview.html?id=${courseId}`;
+                    triggerLoaderAndNavigate(targetUrl);
                 }
             });
         });
     }
+
 
     // ==========================================
     // 3. SIDEBAR & MENU LOGIC
@@ -190,13 +219,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    // Apply observer to dynamic elements
+    // Apply observer to dynamic elements after a slight delay
     setTimeout(() => {
         document.querySelectorAll('.fade-in-up').forEach(el => {
             el.style.animationPlayState = 'paused';
             observer.observe(el);
         });
-    }, 100); // Slight delay to ensure dynamic DOM is fully parsed
+    }, 100); 
 
 
     // ==========================================
@@ -217,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const transitionTime = 1000; 
 
     function changeHeroIcon() {
-        if (!currentIconNode || !nextIconNode) return; // Prevent errors if elements don't exist on page
+        if (!currentIconNode || !nextIconNode) return; 
         
         currentIconIndex = (currentIconIndex + 1) % iconClasses.length;
         

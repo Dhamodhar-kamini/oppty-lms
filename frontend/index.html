@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppty TechHub | The Modern Learning Ecosystem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="oppty-global-loader" class="global-loader-overlay">
+        <div class="loader-content">
+            <img src="../frontend/assets/oppty-icon-logo.png" alt="Loading Icon" class="loader-icon" onerror="this.style.display='none'">
+            <img src="../frontend/assets/opptylogo.png" alt="Oppty TechHub" class="loader-full-logo" onerror="this.outerHTML='<h2 style=\'color:#0f172a; font-family:Plus Jakarta Sans;\'>Loading...</h2>'">
+        </div>
+    </div>
+
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="../frontend/assets/opptylogo.png" alt="Oppty TechHub" onerror="this.outerHTML='<span class=\'fallback-logo\'>OPPTY</span>'">
+            </a>
+            <nav class="nav-links desktop-only">
+                <a href="#features">Features</a>
+                <a href="#courses">Courses</a>
+                <a href="#mentorship">Mentorship</a>
+                <a href="#success">Alumni</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="../frontend/login/login.html" class="btn-text desktop-only">Sign In</a>
+                <a href="#courses" class="btn-primary">Start Learning</a>
+                <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <div class="mobile-menu-header">
+                <img src="../frontend/assets/opptylogo.png" alt="Oppty TechHub" class="mobile-logo" onerror="this.outerHTML='<span class=\\'fallback-logo\\'>OPPTY</span>'">
+                <button class="close-mobile-btn" id="close-mobile-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="#features">Features</a>
+                <a href="#courses">Courses</a>
+                <a href="#mentorship">Mentorship</a>
+                <a href="#success">Alumni</a>
+                <a href="../frontend/login/login.html" class="btn-primary mobile-full-btn" style="text-align: center; color: white;">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-bg-glow"></div>
+            <div class="container hero-grid">
+                
+                <div class="hero-text">
+                    <div class="hero-badge fade-in-up">🌟 The Next-Gen Tech Academy</div>
+                    <h1 class="fade-in-up" style="animation-delay: 0.1s;">
+                        Learn. Build. <br>
+                        <span class="text-gradient">Get Hired.</span>
+                    </h1>
+                    <p class="fade-in-up" style="animation-delay: 0.2s;">
+                        An immersive Learning Management System designed for serious developers. Master Full-Stack engineering, UI/UX, and Backend architecture with real-world projects and 1-on-1 mentorship.
+                    </p>
+                    <div class="hero-cta fade-in-up" style="animation-delay: 0.3s;">
+                        <a href="#courses" class="btn-primary btn-large">Explore Catalog</a>
+                        <a href="#features" class="btn-secondary btn-large"><i class="fa-solid fa-play"></i> See How It Works</a>
+                    </div>
+                    <div class="hero-avatars fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="avatar-group">
+                            <img src="https://i.pravatar.cc/150?img=11" alt="Student">
+                            <img src="https://i.pravatar.cc/150?img=32" alt="Student">
+                            <img src="https://i.pravatar.cc/150?img=12" alt="Student">
+                            <img src="https://i.pravatar.cc/150?img=5" alt="Student">
+                            <div class="avatar-more">15k+</div>
+                        </div>
+                        <div class="avatar-text">
+                            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <span>Loved by tech learners globally</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="lms-mockup">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Platform" class="mockup-img">
+                        
+                        <div class="floating-card progress-card float-anim-1">
+                            <div class="card-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                            <div class="card-info">
+                                <h4>React Mastery</h4>
+                                <div class="progress-bar"><div class="fill" style="width: 85%;"></div></div>
+                                <span>85% Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="floating-card achieve-card float-anim-2">
+                            <div class="card-icon success"><i class="fa-solid fa-certificate"></i></div>
+                            <div class="card-info">
+                                <h4>Certificate Unlocked</h4>
+                                <span>Backend Architecture</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="tech-marquee-wrapper">
+            <p class="marquee-title">MASTER THE TOOLS TOP COMPANIES USE</p>
+            <div class="marquee">
+                <div class="marquee-content">
+                    <span><i class="fa-brands fa-react"></i> React</span>
+                    <span><i class="fa-brands fa-python"></i> Python</span>
+                    <span><i class="fa-brands fa-node-js"></i> Node.js</span>
+                    <span><i class="fa-brands fa-docker"></i> Docker</span>
+                    <span><i class="fa-solid fa-database"></i> PostgreSQL</span>
+                    <span><i class="fa-brands fa-aws"></i> AWS</span>
+                    <span><i class="fa-brands fa-figma"></i> Figma</span>
+                    <span><i class="fa-brands fa-react"></i> React</span>
+                    <span><i class="fa-brands fa-python"></i> Python</span>
+                    <span><i class="fa-brands fa-node-js"></i> Node.js</span>
+                    <span><i class="fa-brands fa-docker"></i> Docker</span>
+                    <span><i class="fa-solid fa-database"></i> PostgreSQL</span>
+                    <span><i class="fa-brands fa-aws"></i> AWS</span>
+                    <span><i class="fa-brands fa-figma"></i> Figma</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="section-heading text-center fade-in-up">
+                    <span class="sub-heading">WHY OPPTY TECHHUB?</span>
+                    <h2>A platform built for your success</h2>
+                </div>
+
+                <div class="bento-grid">
+                    <div class="bento-item span-2 fade-in-up">
+                        <div class="bento-content">
+                            <div class="bento-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                            <h3>Interactive Coding Environment</h3>
+                            <p>Don't just watch videos. Write, test, and deploy code directly in your browser with our integrated IDE. Immediate feedback, zero setup.</p>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Code Editor" class="bento-bg">
+                    </div>
+                    
+                    <div class="bento-item span-1 fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="bento-content">
+                            <div class="bento-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <h3>1-on-1 Mentorship</h3>
+                            <p>Get stuck? Book a live session with industry experts to review your code and guide your career.</p>
+                        </div>
+                    </div>
+
+                    <div class="bento-item span-1 fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="bento-content">
+                            <div class="bento-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            <h3>Job-Ready Portfolio</h3>
+                            <p>Graduate with a portfolio of 10+ enterprise-level projects that recruiters actually care about.</p>
+                        </div>
+                    </div>
+
+                    <div class="bento-item span-2 fade-in-up" style="animation-delay: 0.3s; background: var(--dark-blue); color: white;">
+                        <div class="bento-content">
+                            <div class="bento-icon" style="color: white; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-ranking-star"></i></div>
+                            <h3 style="color: white;">Smart Progress Tracking</h3>
+                            <p style="color: #94a3b8;">Our analytics dashboard identifies your weak spots and automatically generates custom quizzes to ensure mastery of every concept.</p>
+                        </div>
+                        <div class="bento-abstract-chart">
+                            <div class="bar h-40"></div><div class="bar h-70"></div><div class="bar h-50"></div><div class="bar h-90"></div><div class="bar h-60"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="courses-section" id="courses">
+            <div class="container">
+                <div class="section-heading flex-between fade-in-up">
+                    <div>
+                        <span class="sub-heading">LEARNING PATHS</span>
+                        <h2>Featured Courses</h2>
+                    </div>
+                    <a href="../frontend/login/login.html" class="btn-outline desktop-only">View All Courses <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <div class="courses-grid" id="dynamic-landing-courses">
+                    </div>
+                
+                <div class="text-center mobile-only" style="margin-top: 30px;">
+                    <a href="../frontend/login/login.html" class="btn-outline">View All Courses</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="success-section" id="success">
+            <div class="container">
+                <div class="section-heading text-center fade-in-up">
+                    <span class="sub-heading">ALUMNI</span>
+                    <h2>Hear from our graduates</h2>
+                </div>
+                
+                <div class="testimonial-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <div class="quote"><i class="fa-solid fa-quote-left"></i></div>
+                        <p>"The backend architecture course was a game-changer. The hands-on deployment modules helped me crack my interview at Amazon."</p>
+                        <div class="author-info">
+                            <img src="https://i.pravatar.cc/150?img=12" alt="MANIKANTA">
+                            <div>
+                                <h4>MANIKANTA</h4>
+                                <span>Backend Engineer @ Amazon</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="quote"><i class="fa-solid fa-quote-left"></i></div>
+                        <p>"Oppty's cinematic UI/UX path taught me animations I couldn't find anywhere else. My portfolio blew the recruiters away."</p>
+                        <div class="author-info">
+                            <img src="https://i.pravatar.cc/150?img=33" alt="DHAMODHAR">
+                            <div>
+                                <h4>DHAMODHAR</h4>
+                                <span>Frontend Dev @ Stripe</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="quote"><i class="fa-solid fa-quote-left"></i></div>
+                        <p>"The mentorship is what sets this apart. Getting live code reviews from senior engineers accelerated my learning by months."</p>
+                        <div class="author-info">
+                            <img src="https://i.pravatar.cc/150?img=47" alt="SALEEM">
+                            <div>
+                                <h4>SALEEM</h4>
+                                <span>Full Stack Dev @ Startup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-banner fade-in-up">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to level up your tech career?</h2>
+                    <p>Join Oppty TechHub today and get access to world-class curriculum, projects, and community.</p>
+                    <a href="../frontend/login/login.html" class="btn-primary btn-large" style="background: white; color: var(--primary-blue);">Start Free Trial</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="../frontend/assets/opptylogo.png" alt="Oppty TechHub" class="footer-logo" >
+                    <p>The premier learning ecosystem for developers, designers, and tech leaders.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-github"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Platform</h4>
+                        <a href="#">Browse Courses</a>
+                        <a href="#">Learning Paths</a>
+                        <a href="#">Mentorship</a>
+                        <a href="#">Pricing</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Resources</h4>
+                        <a href="#">Community Forum</a>
+                        <a href="#">Tech Blog</a>
+                        <a href="#">Free Cheatsheets</a>
+                        <a href="#">Success Stories</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Oppty TechHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
