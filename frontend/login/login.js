@@ -1,7 +1,7 @@
 /* ===== API CONFIGURATION ===== */
 const API_URLS = {
-    signup: 'http://192.168.1.17:8000/api/signup/',
-    signin: 'http://192.168.1.17:8000/api/signin/'
+    signup: 'http://127.0.0.1:8000/api/signup/',
+    signin: 'http://127.0.0.1:8000/api/signin/'
 };
 
 /* ===== REDIRECT DESTINATIONS ===== */
